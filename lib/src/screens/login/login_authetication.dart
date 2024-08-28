@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/breakpoints/display_responsive.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
@@ -102,7 +103,10 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                             ),
                             labelText: 'Email',
                           ),
-                          validator: isNotEmpyt,
+                          validator: (value) =>
+                              EmailValidator.validate(value.toString())
+                                  ? null
+                                  : "Email inválido",
                         ),
                         const SizedBox(height: 15),
                         TextFormField(
@@ -127,7 +131,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                             Row(
                               children: [
                                 Checkbox(
-                                  activeColor: ColorSchemeManagerClass.colorBlack,
+                                  activeColor:
+                                      ColorSchemeManagerClass.colorBlack,
                                   value: isChecked,
                                   onChanged: (bool? value) {
                                     setState(() {
@@ -139,7 +144,10 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                               ],
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed('forgotPassword');
+                              },
                               child: Text(
                                 'Esqueci minha senha',
                                 style: TextStyle(
@@ -200,6 +208,7 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                 'clique aqui para criar uma conta',
                                 style: TextStyle(
                                   decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.w600
                                 ),
                               ),
                             ),
