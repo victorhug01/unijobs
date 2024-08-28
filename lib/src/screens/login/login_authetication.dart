@@ -43,7 +43,9 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                         ),
                         const SizedBox(height: 20),
                         const Text(
-                            'Sua nova plataforma de contratação exclusiva de alunos da unimar.'),
+                          'Sua nova plataforma de contratação exclusiva de alunos da unimar.',
+                          textAlign: TextAlign.center,
+                        ),
                         const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {},
@@ -64,7 +66,7 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Image.asset('images/googlelogo.png', height: 25),
+                              Image.asset('googlelogo.png', height: 25),
                               const SizedBox(width: 10),
                               Text(
                                 'Login com google',
@@ -207,9 +209,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                               child: const Text(
                                 'clique aqui para criar uma conta',
                                 style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontWeight: FontWeight.w600
-                                ),
+                                    decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -228,7 +229,7 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
               : Expanded(
                   child: SizedBox(
                     child: Image.asset(
-                      'images/unimarblue.jpg',
+                      'unimarblue.jpg',
                       fit: BoxFit.fill,
                       height: double.infinity,
                     ),
