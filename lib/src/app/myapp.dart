@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'forgotPassword': (_) => const ForgotPassword(),
         'registerAuthetication': (_) => const RegisterAuthentication(),
+        'loginAuthentication': (_) => const LoginAuthentication(),
       },
       home: const LoginAuthentication(),
     );
