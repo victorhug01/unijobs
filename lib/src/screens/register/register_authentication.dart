@@ -29,7 +29,6 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        height: MediaQuery.sizeOf(context).height,
         width: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -39,168 +38,171 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
             fit: BoxFit.cover,
           ),
         ),
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: responsive.isMobile ? double.infinity : 450,
-                  child: Form(
-                    key: _keyForm,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 15),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            child: Image.asset(
-                              'assets/unimar_black.png',
-                              height: 50,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          const Text(
-                            'Crie Sua Conta',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            'Preencha os campos abaixo para criar sua conta e começar a usar nossos serviços. É rápido e fácil!',
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0.0,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              backgroundColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                side: BorderSide(
-                                    color:
-                                        ColorSchemeManagerClass.colorBlack,
-                                    width: 2.0),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    width: responsive.isMobile ? double.infinity : 450,
+                    child: Form(
+                      key: _keyForm,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              child: Image.asset(
+                                'assets/unimar_black.png',
+                                height: 150,
+                                fit: BoxFit.fill,
                               ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset('assets/google.png',
-                                    height: 25),
-                                const SizedBox(width: 10),
-                                Text(
-                                  'Cadastrar com google',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color:
-                                        ColorSchemeManagerClass.colorBlack,
-                                  ),
-                                ),
-                              ],
+                            const Text(
+                              'Crie Sua Conta',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Row(
-                            children: <Widget>[
-                              Expanded(child: Divider()),
-                              Text("Ou"),
-                              Expanded(child: Divider()),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          TextFormFieldComponent(
-                            controller: nameController,
-                            inputType: TextInputType.text,
-                            labelText: 'Nome',
-                            validator: isNotEmpyt,
-                            obscure: false,
-                          ),
-                          const SizedBox(height: 10),
-                          TextFormFieldComponent(
-                            obscure: false,
-                            controller: emailController,
-                            inputType: TextInputType.emailAddress,
-                            labelText: 'Email',
-                            validator: (value) =>
-                                EmailValidator.validate(value.toString())
-                                    ? null
-                                    : "Email inválido",
-                          ),
-                          const SizedBox(height: 15),
-                          TextFormFieldComponent(
-                            controller: enterpriseController,
-                            inputType: TextInputType.text,
-                            labelText: 'Empresa',
-                            validator: isNotEmpyt,
-                            obscure: false,
-                          ),
-                          const SizedBox(height: 15),
-                          TextFormFieldComponent(
-                            controller: passwordController,
-                            inputType: TextInputType.text,
-                            labelText: 'Senha',
-                            validator: isNotEmpyt,
-                            obscure: true,
-                          ),
-                          const SizedBox(height: 15),
-                          TextFormFieldComponent(
-                            controller: confirmPasswordController,
-                            inputType: TextInputType.text,
-                            labelText: 'Confirmar senha',
-                            validator: isNotEmpyt,
-                            obscure: true,
-                          ),
-                          const SizedBox(height: 35),
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_keyForm.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(
-                                     SnackBar(
-                                      backgroundColor: ColorSchemeManagerClass.colorCorrect,
-                                      content: const Text('Campos Validados'),
-                                      duration:
-                                          const Duration(milliseconds: 4000),
-                                    ),
-                                  );
-                                }
-                              },
+                            const SizedBox(height: 20),
+                            const Text(
+                              'Preencha os campos abaixo para criar sua conta e começar a usar nossos serviços. É rápido e fácil!',
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 elevation: 0.0,
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 15, horizontal: 10),
-                                backgroundColor:
-                                    ColorSchemeManagerClass.colorBlack,
+                                backgroundColor: Colors.transparent,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(
+                                      color:
+                                          ColorSchemeManagerClass.colorBlack,
+                                      width: 2.0),
                                 ),
                               ),
-                              child: Text(
-                                'Conectar',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                  color: ColorSchemeManagerClass.colorWhite,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset('assets/google.png',
+                                      height: 25),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Cadastrar com google',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color:
+                                          ColorSchemeManagerClass.colorBlack,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            const Row(
+                              children: <Widget>[
+                                Expanded(child: Divider()),
+                                Text("Ou"),
+                                Expanded(child: Divider()),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            TextFormFieldComponent(
+                              controller: nameController,
+                              inputType: TextInputType.text,
+                              labelText: 'Nome',
+                              validator: isNotEmpyt,
+                              obscure: false,
+                            ),
+                            const SizedBox(height: 10),
+                            TextFormFieldComponent(
+                              obscure: false,
+                              controller: emailController,
+                              inputType: TextInputType.emailAddress,
+                              labelText: 'Email',
+                              validator: (value) =>
+                                  EmailValidator.validate(value.toString())
+                                      ? null
+                                      : "Email inválido",
+                            ),
+                            const SizedBox(height: 15),
+                            TextFormFieldComponent(
+                              controller: enterpriseController,
+                              inputType: TextInputType.text,
+                              labelText: 'Empresa',
+                              validator: isNotEmpyt,
+                              obscure: false,
+                            ),
+                            const SizedBox(height: 15),
+                            TextFormFieldComponent(
+                              controller: passwordController,
+                              inputType: TextInputType.text,
+                              labelText: 'Senha',
+                              validator: isNotEmpyt,
+                              obscure: true,
+                            ),
+                            const SizedBox(height: 15),
+                            TextFormFieldComponent(
+                              controller: confirmPasswordController,
+                              inputType: TextInputType.text,
+                              labelText: 'Confirmar senha',
+                              validator: isNotEmpyt,
+                              obscure: true,
+                            ),
+                            const SizedBox(height: 35),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (_keyForm.currentState!.validate()) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                       SnackBar(
+                                        backgroundColor: ColorSchemeManagerClass.colorCorrect,
+                                        content: const Text('Campos Validados'),
+                                        duration:
+                                            const Duration(milliseconds: 4000),
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                  backgroundColor:
+                                      ColorSchemeManagerClass.colorBlack,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: Text(
+                                  'Conectar',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: ColorSchemeManagerClass.colorWhite,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
