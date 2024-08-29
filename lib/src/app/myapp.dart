@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unijobs/src/screens/forgotpassword/forgotpassword.dart';
 import 'package:unijobs/src/screens/login/login_authetication.dart';
+import 'package:unijobs/src/screens/register/register_authentication.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         'forgotPassword': (_) => const ForgotPassword(),
+        'registerAuthetication': (_) => const RegisterAuthentication(),
       },
       home: const LoginAuthentication(),
     );
