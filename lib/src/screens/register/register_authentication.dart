@@ -187,7 +187,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                           content: const Text(
                                             'Cadastro concluído! Redirecionando...',
                                           ),
-                                          duration: const Duration(seconds: 3),
+                                          duration: const Duration(seconds: 2),
                                         ),
                                       );
 

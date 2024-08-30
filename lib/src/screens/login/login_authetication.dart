@@ -21,9 +21,19 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
   final TextEditingController passwordController = TextEditingController();
   final AuthenticationService _authService = AuthenticationService();
 
+  void loadingAnimation(BuildContext contextGotFromUI) {
+    showDialog(
+      context: contextGotFromUI,
+      builder: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
+    final sm = ScaffoldMessenger.of(context);
     return Scaffold(
       body: LayoutBuilder(builder: (context, constraints) {
         return SizedBox(
@@ -44,9 +54,10 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                             horizontal: 15,
                           ),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Align(
-                                alignment: Alignment.center,
+                              SingleChildScrollView(
+                                reverse: true,
                                 child: SizedBox(
                                   width: responsive.isMobile
                                       ? double.infinity
@@ -187,23 +198,26 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                             onPressed: () {
                                               if (_keyForm.currentState!
                                                   .validate()) {
-                                                String email = emailController.text;
-                                                String password = passwordController.text;
-                                                _authService.signInUsers(
-                                                  email: email,
-                                                  password: password,
-                                                ).then((String? error) {
+                                                String email =
+                                                    emailController.text;
+                                                String password =
+                                                    passwordController.text;
+                                                _authService
+                                                    .signInUsers(
+                                                        email: email,
+                                                        password: password)
+                                                    .then(
+                                                  (String? error) {
                                                     if (error != null) {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                      sm.showSnackBar(
                                                         SnackBar(
-                                                          backgroundColor: ColorSchemeManagerClass.colorDanger,
-                                                          content: Text(
-                                                            error,
-                                                          ),
+                                                          backgroundColor:
+                                                              ColorSchemeManagerClass
+                                                                  .colorDanger,
+                                                          content: Text(error),
                                                           duration:
                                                               const Duration(
-                                                            seconds: 3,
-                                                          ),
+                                                                  seconds: 3),
                                                         ),
                                                       );
                                                     }
