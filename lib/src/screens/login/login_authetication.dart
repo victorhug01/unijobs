@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/breakpoints/display_responsive.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
+import 'package:unijobs/src/servicos/authentication_service.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/validations/mixin_validation.dart';
 
@@ -18,6 +19,7 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
   final GlobalKey<FormState> _keyForm = GlobalKey();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthenticationService _authService = AuthenticationService();
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +136,10 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                           controller: passwordController,
                                           inputType: TextInputType.text,
                                           labelText: 'Senha',
-                                          validator: isNotEmpyt,
+                                          validator: (value) => combine([
+                                            () => isNotEmpyt(value),
+                                            () => hasSixChars(value),
+                                          ]),
                                           obscure: true,
                                         ),
                                         const SizedBox(height: 5),
@@ -182,14 +187,28 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                             onPressed: () {
                                               if (_keyForm.currentState!
                                                   .validate()) {
-                                                const snackBar = SnackBar(
-                                                  content:
-                                                      Text('Campos Validados'),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
+                                                String email = emailController.text;
+                                                String password = passwordController.text;
+                                                _authService.signInUsers(
+                                                  email: email,
+                                                  password: password,
+                                                ).then((String? error) {
+                                                    if (error != null) {
+                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                        SnackBar(
+                                                          backgroundColor: ColorSchemeManagerClass.colorDanger,
+                                                          content: Text(
+                                                            error,
+                                                          ),
+                                                          duration:
+                                                              const Duration(
+                                                            seconds: 3,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  },
                                                 );
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackBar);
                                               }
                                             },
                                             style: ElevatedButton.styleFrom(

@@ -179,7 +179,6 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                         email: email,
                                         password: password,
                                       );
-
                                       sm.showSnackBar(
                                         SnackBar(
                                           backgroundColor:
