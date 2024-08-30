@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/breakpoints/display_responsive.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
+import 'package:unijobs/src/servicos/authentication_service.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/validations/mixin_validation.dart';
 
@@ -15,9 +16,9 @@ class RegisterAuthentication extends StatefulWidget {
 class _RegisterAuthenticationState extends State<RegisterAuthentication>
     with ValidationMixinClass {
   bool? isChecked = false;
+  final AuthenticationService _authService = AuthenticationService();
   final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController enterpriseController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -45,7 +46,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
             children: [
               Column(
                 children: [
-                  Container(
+                  SizedBox(
                     width: responsive.isMobile ? double.infinity : 450,
                     child: Form(
                       key: _keyForm,
@@ -82,8 +83,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
                                   side: BorderSide(
-                                      color:
-                                          ColorSchemeManagerClass.colorBlack,
+                                      color: ColorSchemeManagerClass.colorBlack,
                                       width: 2.0),
                                 ),
                               ),
@@ -91,16 +91,14 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Image.asset('assets/google.png',
-                                      height: 25),
+                                  Image.asset('assets/google.png', height: 25),
                                   const SizedBox(width: 10),
                                   Text(
                                     'Cadastrar com google',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18,
-                                      color:
-                                          ColorSchemeManagerClass.colorBlack,
+                                      color: ColorSchemeManagerClass.colorBlack,
                                     ),
                                   ),
                                 ],
@@ -135,18 +133,17 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                             ),
                             const SizedBox(height: 15),
                             TextFormFieldComponent(
-                              controller: enterpriseController,
-                              inputType: TextInputType.text,
-                              labelText: 'Empresa',
-                              validator: isNotEmpyt,
-                              obscure: false,
-                            ),
-                            const SizedBox(height: 15),
-                            TextFormFieldComponent(
                               controller: passwordController,
                               inputType: TextInputType.text,
                               labelText: 'Senha',
-                              validator: isNotEmpyt,
+                              validator: (value) => combine([
+                                () => isNotEmpyt(value),
+                                () => hasSixChars(value),
+                                () => value.toString() !=
+                                        confirmPasswordController.text
+                                    ? "Senhas diferentes"
+                                    : null
+                              ]),
                               obscure: true,
                             ),
                             const SizedBox(height: 15),
@@ -154,30 +151,68 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                               controller: confirmPasswordController,
                               inputType: TextInputType.text,
                               labelText: 'Confirmar senha',
-                              validator: isNotEmpyt,
+                              validator: (value) => combine([
+                                () => isNotEmpyt(value),
+                                () => hasSixChars(value),
+                                () =>
+                                    value.toString() != passwordController.text
+                                        ? "Senhas diferentes"
+                                        : null
+                              ]),
                               obscure: true,
                             ),
                             const SizedBox(height: 35),
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   if (_keyForm.currentState!.validate()) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(
-                                       SnackBar(
-                                        backgroundColor: ColorSchemeManagerClass.colorCorrect,
-                                        content: const Text('Campos Validados'),
-                                        duration:
-                                            const Duration(milliseconds: 4000),
-                                      ),
-                                    );
+                                    final sm = ScaffoldMessenger.of(context);
+                                    final navigation = Navigator.of(context);
+                                    String name = nameController.text;
+                                    String email = emailController.text;
+                                    String password = passwordController.text;
+
+                                    try {
+                                      await _authService.registerUser(
+                                        name: name,
+                                        email: email,
+                                        password: password,
+                                      );
+
+                                      sm.showSnackBar(
+                                        SnackBar(
+                                          backgroundColor:
+                                              ColorSchemeManagerClass
+                                                  .colorCorrect,
+                                          content: const Text(
+                                            'Cadastro concluído! Redirecionando...',
+                                          ),
+                                          duration: const Duration(seconds: 3),
+                                        ),
+                                      );
+
+                                      navigation.pushReplacementNamed(
+                                        'loginAuthentication',
+                                      );
+                                    } catch (e) {
+                                      sm.showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: Colors.red,
+                                          content: Text(
+                                              'Erro ao registrar usuário: $e'),
+                                        ),
+                                      );
+                                    }
+                                    _keyForm.currentState!.reset();
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   elevation: 0.0,
                                   padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10),
+                                    vertical: 15,
+                                    horizontal: 10,
+                                  ),
                                   backgroundColor:
                                       ColorSchemeManagerClass.colorBlack,
                                   shape: RoundedRectangleBorder(
