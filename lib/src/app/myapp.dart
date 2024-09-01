@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unijobs/src/views/forgotpassword/forgotpassword.dart';
 import 'package:unijobs/src/views/navigation/home/home_page.dart';
 import 'package:unijobs/src/views/login/login_authetication.dart';
-import 'package:unijobs/src/views/navigation/navigation_bar_controller.dart';
 import 'package:unijobs/src/views/register/register_authentication.dart';
 
 class MyApp extends StatelessWidget {
@@ -27,8 +26,8 @@ class MyApp extends StatelessWidget {
         'loginAuthentication': (_) => const LoginAuthentication(),
         'roteadorScreen': (_) => const RoteadorScreen(),
       },
-      home: const NavigationBottomNavigation(),
-      // home: const RoteadorScreen(),
+      // home: const NavigationBottomNavigation(),
+      home: const RoteadorScreen(),
     );
   }
 }
