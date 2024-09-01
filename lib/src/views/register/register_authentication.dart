@@ -1,8 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:unijobs/src/breakpoints/display_responsive.dart';
+import 'package:unijobs/src/responsive/display_responsive.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
-import 'package:unijobs/src/servicos/authentication_service.dart';
+import 'package:unijobs/src/services/authentication_service.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/validations/mixin_validation.dart';
 

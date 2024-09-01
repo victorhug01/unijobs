@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unijobs/src/servicos/authentication_service.dart';
+import 'package:unijobs/src/services/authentication_service.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,14 +13,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
+      backgroundColor: Colors.yellow,
       appBar: AppBar(
         title: const Text('Seja bem vindo'),
       ),
-      body: Center(
-        child: ElevatedButton(onPressed: (){
-          _authService.logOut();
-        }, child: const Text('Sair')),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(onPressed: (){
+              _authService.logOut();
+            }, child: const Text('Sair')),
+          ),
+        ],
       ),
     );
   }

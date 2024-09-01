@@ -15,6 +15,7 @@ class AuthenticationService {
       password: password,
     );
     userCredential.user!.updateDisplayName(name);
+    // userCredential.user!.updatePhoneNumber(phoneCredential)
   }
 
   Future<String?> signInUsers(
