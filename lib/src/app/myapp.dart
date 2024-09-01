@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         'forgotPassword': (_) => const ForgotPassword(),
         'registerAuthetication': (_) => const RegisterAuthentication(),
         'loginAuthentication': (_) => const LoginAuthentication(),
+        'roteadorScreen': (_) => const RoteadorScreen(),
       },
       home: const RoteadorScreen(),
     );

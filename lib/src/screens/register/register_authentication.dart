@@ -28,7 +28,14 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed('loginAuthentication');
+          },
+          icon: Icon(Icons.adaptive.arrow_back),
+        ),
+      ),
       body: Container(
         width: double.infinity,
         decoration: const BoxDecoration(
@@ -46,7 +53,8 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
             children: [
               Column(
                 children: [
-                  SizedBox(
+                  Container(
+                    color: ColorSchemeManagerClass.colorWhite,
                     width: responsive.isMobile ? double.infinity : 450,
                     child: Form(
                       key: _keyForm,
@@ -173,36 +181,50 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                     String email = emailController.text;
                                     String password = passwordController.text;
 
+                                    // Exibe o CircularProgressIndicator enquanto o processo de registro está em andamento
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false, // Impede que o usuário feche o diálogo tocando fora
+                                      builder: (BuildContext context) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                    );
+
                                     try {
+                                      // Executa o processo de registro
                                       await _authService.registerUser(
                                         name: name,
                                         email: email,
                                         password: password,
                                       );
+
+                                      // Exibe um SnackBar informando que o registro foi concluído
                                       sm.showSnackBar(
                                         SnackBar(
-                                          backgroundColor:
-                                              ColorSchemeManagerClass
-                                                  .colorCorrect,
-                                          content: const Text(
-                                            'Cadastro concluído! Redirecionando...',
-                                          ),
+                                          backgroundColor: ColorSchemeManagerClass.colorCorrect,
+                                          content: const Text('Cadastro concluído!'),
                                           duration: const Duration(seconds: 2),
                                         ),
                                       );
-
-                                      navigation.pushReplacementNamed(
-                                        'loginAuthentication',
-                                      );
                                     } catch (e) {
+                                      // Lida com erros durante o registro
                                       sm.showSnackBar(
                                         SnackBar(
                                           backgroundColor: Colors.red,
-                                          content: Text(
-                                              'Erro ao registrar usuário: $e'),
+                                          content: Text('Erro ao registrar usuário: $e'),
                                         ),
                                       );
+                                    } finally {
+                                      // Fecha o CircularProgressIndicator após o processo
+                                      navigation.pop();
+
+                                      // Realiza a navegação após fechar o CircularProgressIndicator
+                                      navigation.pushReplacementNamed('loginAuthentication');
                                     }
+
+                                    // Reseta o formulário após o processo de registro
                                     _keyForm.currentState!.reset();
                                   }
                                 },

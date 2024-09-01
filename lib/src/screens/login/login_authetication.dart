@@ -21,15 +21,6 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
   final TextEditingController passwordController = TextEditingController();
   final AuthenticationService _authService = AuthenticationService();
 
-  void loadingAnimation(BuildContext contextGotFromUI) {
-    showDialog(
-      context: contextGotFromUI,
-      builder: (_) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
@@ -46,9 +37,11 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Row(
+                    mainAxisSize: MainAxisSize.max,
                     children: [
                       Expanded(
                         child: Container(
+                          height: MediaQuery.sizeOf(context).height,
                           padding: const EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 15,
@@ -56,229 +49,228 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SingleChildScrollView(
-                                reverse: true,
-                                child: SizedBox(
-                                  width: responsive.isMobile
-                                      ? double.infinity
-                                      : 450,
-                                  child: Form(
-                                    key: _keyForm,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          'Bem-vindo(a) à Unijobs',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
+                              SizedBox(
+                                width: responsive.isMobile
+                                    ? double.infinity
+                                    : 450,
+                                child: Form(
+                                  key: _keyForm,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        'Bem-vindo(a) à Unijobs',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      const Text(
+                                        'Sua nova plataforma de contratação exclusiva de alunos da unimar.',
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      ElevatedButton(
+                                        onPressed: () {},
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0.0,
+                                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                          backgroundColor: Colors.transparent,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                            side: BorderSide(
+                                              color: ColorSchemeManagerClass .colorBlack,
+                                              width: 2.0,
+                                            ),
+                                          ),
                                         ),
-                                        const SizedBox(height: 20),
-                                        const Text(
-                                          'Sua nova plataforma de contratação exclusiva de alunos da unimar.',
-                                          textAlign: TextAlign.center,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Image.asset('assets/google.png',
+                                                height: 25),
+                                            const SizedBox(width: 10),
+                                            Text(
+                                              'Login com google',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: ColorSchemeManagerClass.colorBlack,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(height: 20),
-                                        ElevatedButton(
-                                          onPressed: () {},
+                                      ),
+                                      const SizedBox(height: 10),
+                                      const Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Divider(),
+                                          ),
+                                          Text("Ou"),
+                                          Expanded(
+                                            child: Divider(),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      TextFormFieldComponent(
+                                        obscure: false,
+                                        controller: emailController,
+                                        inputType: TextInputType.emailAddress,
+                                        labelText: 'Email',
+                                        validator: (value) =>
+                                            EmailValidator.validate(
+                                                    value.toString())
+                                                ? null
+                                                : "Email inválido",
+                                      ),
+                                      const SizedBox(height: 15),
+                                      TextFormFieldComponent(
+                                        controller: passwordController,
+                                        inputType: TextInputType.text,
+                                        labelText: 'Senha',
+                                        validator: (value) => combine([
+                                          () => isNotEmpyt(value),
+                                          () => hasSixChars(value),
+                                        ]),
+                                        obscure: true,
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Checkbox(
+                                                activeColor:
+                                                    ColorSchemeManagerClass.colorBlack,
+                                                value: isChecked,
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    isChecked = value;
+                                                  });
+                                                },
+                                              ),
+                                              const Text('Relebrar senha'),
+                                            ],
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamed(
+                                                  'forgotPassword');
+                                            },
+                                            child: Text(
+                                              'Esqueci minha senha',
+                                              style: TextStyle(
+                                                color: ColorSchemeManagerClass.colorBlack,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 35),
+                                      SizedBox(
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            if (_keyForm.currentState!.validate()) {
+                                              String email = emailController.text;
+                                              String password = passwordController.text;
+                                              final navigation = Navigator.of(context);
+
+                                              // Exibe o CircularProgressIndicator enquanto o processo está em andamento
+                                              showDialog(
+                                                context: context,
+                                                barrierDismissible: false, // Impede que o usuário feche o diálogo tocando fora
+                                                builder: (BuildContext context) {
+                                                  return const Center(
+                                                    child: CircularProgressIndicator(),
+                                                  );
+                                                },
+                                              );
+
+                                              try {
+                                                // Executa o processo de login
+                                                String? error = await _authService.signInUsers(email: email, password: password);
+
+                                                // Caso haja erro, exibe um SnackBar com a mensagem
+                                                if (error != null) {
+                                                  sm.showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor: ColorSchemeManagerClass.colorDanger,
+                                                      content: Text(error),
+                                                      duration: const Duration(seconds: 3),
+                                                    ),
+                                                  );
+                                                }
+                                              } catch (e) {
+                                                // Lida com erros inesperados
+                                                sm.showSnackBar(
+                                                  SnackBar(
+                                                    backgroundColor: ColorSchemeManagerClass.colorDanger,
+                                                    content: Text('Erro ao fazer login: $e'),
+                                                    duration: const Duration(seconds: 3),
+                                                  ),
+                                                );
+                                              } finally {
+                                                // Fecha o CircularProgressIndicator após o processo
+                                                navigation.pop();
+                                              }
+                                              _keyForm.currentState!.reset();
+                                              navigation.pushReplacementNamed('roteadorScreen');
+                                            }
+                                          },
                                           style: ElevatedButton.styleFrom(
                                             elevation: 0.0,
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: 15, horizontal: 10),
-                                            backgroundColor: Colors.transparent,
+                                              vertical: 15,
+                                              horizontal: 10,
+                                            ),
+                                            backgroundColor: ColorSchemeManagerClass.colorBlack,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
-                                              side: BorderSide(
-                                                color: ColorSchemeManagerClass
-                                                    .colorBlack,
-                                                width: 2.0,
-                                              ),
                                             ),
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Image.asset('assets/google.png',
-                                                  height: 25),
-                                              const SizedBox(width: 10),
-                                              Text(
-                                                'Login com google',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18,
-                                                  color: ColorSchemeManagerClass
-                                                      .colorBlack,
-                                                ),
-                                              ),
-                                            ],
+                                          child: Text(
+                                            'Conectar',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: ColorSchemeManagerClass.colorWhite,
+                                            ),
                                           ),
                                         ),
-                                        const SizedBox(height: 10),
-                                        const Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: Divider(),
+                                      ),
+                                      const SizedBox(height: 25),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text('Não tem uma conta?'),
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                              padding: const EdgeInsets.all(2),
                                             ),
-                                            Text("Ou"),
-                                            Expanded(
-                                              child: Divider(),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 10),
-                                        TextFormFieldComponent(
-                                          obscure: false,
-                                          controller: emailController,
-                                          inputType: TextInputType.emailAddress,
-                                          labelText: 'Email',
-                                          validator: (value) =>
-                                              EmailValidator.validate(
-                                                      value.toString())
-                                                  ? null
-                                                  : "Email inválido",
-                                        ),
-                                        const SizedBox(height: 15),
-                                        TextFormFieldComponent(
-                                          controller: passwordController,
-                                          inputType: TextInputType.text,
-                                          labelText: 'Senha',
-                                          validator: (value) => combine([
-                                            () => isNotEmpyt(value),
-                                            () => hasSixChars(value),
-                                          ]),
-                                          obscure: true,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Checkbox(
-                                                  activeColor:
-                                                      ColorSchemeManagerClass
-                                                          .colorBlack,
-                                                  value: isChecked,
-                                                  onChanged: (bool? value) {
-                                                    setState(() {
-                                                      isChecked = value;
-                                                    });
-                                                  },
-                                                ),
-                                                const Text('Relebrar senha'),
-                                              ],
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pushNamed(
-                                                    'forgotPassword');
-                                              },
-                                              child: Text(
-                                                'Esqueci minha senha',
-                                                style: TextStyle(
-                                                  color: ColorSchemeManagerClass
-                                                      .colorBlack,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 35),
-                                        SizedBox(
-                                          width: double.infinity,
-                                          child: ElevatedButton(
                                             onPressed: () {
-                                              if (_keyForm.currentState!
-                                                  .validate()) {
-                                                String email =
-                                                    emailController.text;
-                                                String password =
-                                                    passwordController.text;
-                                                _authService
-                                                    .signInUsers(
-                                                        email: email,
-                                                        password: password)
-                                                    .then(
-                                                  (String? error) {
-                                                    if (error != null) {
-                                                      sm.showSnackBar(
-                                                        SnackBar(
-                                                          backgroundColor:
-                                                              ColorSchemeManagerClass
-                                                                  .colorDanger,
-                                                          content: Text(error),
-                                                          duration:
-                                                              const Duration(
-                                                                  seconds: 3),
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
-                                                );
-                                              }
+                                              Navigator.of(context).pushNamed('registerAuthetication');
                                             },
-                                            style: ElevatedButton.styleFrom(
-                                              elevation: 0.0,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                vertical: 15,
-                                                horizontal: 10,
-                                              ),
-                                              backgroundColor:
-                                                  ColorSchemeManagerClass
-                                                      .colorBlack,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Conectar',
+                                            child: const Text(
+                                              'clique aqui para criar uma conta',
                                               style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                                color: ColorSchemeManagerClass
-                                                    .colorWhite,
+                                                decoration: TextDecoration.underline,
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 25),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Text('Não tem uma conta?'),
-                                            TextButton(
-                                              style: TextButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.all(2),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pushNamed(
-                                                    'registerAuthetication');
-                                              },
-                                              child: const Text(
-                                                'clique aqui para criar uma conta',
-                                                style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),
