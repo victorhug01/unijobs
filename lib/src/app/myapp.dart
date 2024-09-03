@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unijobs/src/views/forgotpassword/forgotpassword.dart';
-import 'package:unijobs/src/views/navigation/home/home_page.dart';
 import 'package:unijobs/src/views/login/login_authetication.dart';
+import 'package:unijobs/src/views/navigation/navigation_bar_controller.dart';
 import 'package:unijobs/src/views/register/register_authentication.dart';
 
 class MyApp extends StatelessWidget {
@@ -45,7 +45,7 @@ class RoteadorScreen extends StatelessWidget {
           // print('Nome: ${snapshot.data!.displayName.toString()}');
           // print('Email: ${snapshot.data!.email.toString()}');
           // print('Email: ${snapshot.data!.phoneNumber.toString()}');
-          return const MyHomePage();
+          return const NavigationBottomNavigation();
         }else{
           return const LoginAuthentication();
         }
