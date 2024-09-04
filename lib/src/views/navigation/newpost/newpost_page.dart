@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
+import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/validations/mixin_validation.dart';
 
 class NewpostPage extends StatefulWidget {
@@ -29,59 +30,74 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
               context: context,
               barrierDismissible: true,
               builder: (BuildContext context) {
-                return Center(
-                  child: Material(
-                    child: SizedBox(
-                      width: responsive.width / 1.2,
-                      height: MediaQuery.sizeOf(context).height / 1.2,
-                      child: Form(
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(70.0),
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Material(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: const EdgeInsets.all(40.0),
+                          width: (responsive.isMobile || responsive.isTablet)
+                              ? 1.5
+                              : 700,
+                          child: Form(
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.text_fields_rounded),
                                   controller: titleController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Título',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 15),
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.text_fields_rounded),
                                   controller: subtitleController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Subtítulo',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 15),
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.location_on),
                                   controller: localController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Local',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 15),
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.monetization_on),
                                   controller: salaryController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Salário',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 15),
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.date_range),
                                   controller: periodController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Período',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 15),
                                 TextFormFieldComponent(
+                                  iconP: const Icon(Icons.apartment),
                                   controller: enterpriseController,
                                   inputType: TextInputType.text,
                                   obscure: false,
                                   labelText: 'Nome empresa',
                                   validator: isNotEmpyt,
                                 ),
+                                const SizedBox(height: 25),
                                 TextField(
                                   keyboardType: TextInputType.multiline,
                                   controller: descriptionController,
@@ -91,7 +107,32 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                     hintText: 'Descrição',
                                     border: OutlineInputBorder(),
                                   ),
-                                )
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(15),
+                                  width: responsive.isMobile
+                                      ? double.infinity
+                                      : 450,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0.0,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 15,
+                                        horizontal: 10,
+                                      ),
+                                      backgroundColor:
+                                          ColorSchemeManagerClass.colorBlack,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      foregroundColor:
+                                          ColorSchemeManagerClass.colorWhite,
+                            
+                                    ),
+                                    child: const Text('data'),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

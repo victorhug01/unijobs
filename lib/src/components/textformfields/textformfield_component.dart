@@ -3,11 +3,12 @@ import 'package:unijobs/src/theme/theme_color.dart';
 
 class TextFormFieldComponent extends StatefulWidget {
   final String labelText;
+  final Icon? iconP;
   final bool obscure;
   final String? Function(String?)? validator;
   final TextInputType inputType;
   final TextEditingController controller;
-  const TextFormFieldComponent({super.key, required this.controller, required this.labelText, this.validator, required this.inputType, required this.obscure});
+  const TextFormFieldComponent({super.key, required this.controller, required this.labelText, this.validator, required this.inputType, required this.obscure, this.iconP});
 
   @override
   State<TextFormFieldComponent> createState() => _TextFormFieldComponentState();
@@ -21,6 +22,7 @@ class _TextFormFieldComponentState extends State<TextFormFieldComponent> {
       obscureText: widget.obscure,
       controller: widget.controller,
       decoration: InputDecoration(
+        prefixIcon: widget.iconP,
         border: const UnderlineInputBorder(),
         errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
