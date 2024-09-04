@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         'loginAuthentication': (_) => const LoginAuthentication(),
         'roteadorScreen': (_) => const RoteadorScreen(),
       },
-      // home: const NavigationBottomNavigation(),
       home: const RoteadorScreen(),
     );
   }
