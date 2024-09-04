@@ -36,61 +36,64 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                       height: MediaQuery.sizeOf(context).height / 1.2,
                       child: Form(
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              TextFormFieldComponent(
-                                controller: titleController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Título',
-                                validator: isNotEmpyt,
-                              ),
-                              TextFormFieldComponent(
-                                controller: subtitleController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Subtítulo',
-                                validator: isNotEmpyt,
-                              ),
-                              TextFormFieldComponent(
-                                controller: localController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Local',
-                                validator: isNotEmpyt,
-                              ),
-                              TextFormFieldComponent(
-                                controller: salaryController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Salário',
-                                validator: isNotEmpyt,
-                              ),
-                              TextFormFieldComponent(
-                                controller: periodController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Período',
-                                validator: isNotEmpyt,
-                              ),
-                              TextFormFieldComponent(
-                                controller: enterpriseController,
-                                inputType: TextInputType.text,
-                                obscure: false,
-                                labelText: 'Nome empresa',
-                                validator: isNotEmpyt,
-                              ),
-                              TextField(
-                                keyboardType: TextInputType.multiline,
-                                controller: descriptionController,
-                                minLines: 10,
-                                maxLines: null,
-                                decoration: const InputDecoration(
-                                  hintText: 'Descrição',
-                                  border: OutlineInputBorder(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(70.0),
+                            child: Column(
+                              children: [
+                                TextFormFieldComponent(
+                                  controller: titleController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Título',
+                                  validator: isNotEmpyt,
                                 ),
-                              )
-                            ],
+                                TextFormFieldComponent(
+                                  controller: subtitleController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Subtítulo',
+                                  validator: isNotEmpyt,
+                                ),
+                                TextFormFieldComponent(
+                                  controller: localController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Local',
+                                  validator: isNotEmpyt,
+                                ),
+                                TextFormFieldComponent(
+                                  controller: salaryController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Salário',
+                                  validator: isNotEmpyt,
+                                ),
+                                TextFormFieldComponent(
+                                  controller: periodController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Período',
+                                  validator: isNotEmpyt,
+                                ),
+                                TextFormFieldComponent(
+                                  controller: enterpriseController,
+                                  inputType: TextInputType.text,
+                                  obscure: false,
+                                  labelText: 'Nome empresa',
+                                  validator: isNotEmpyt,
+                                ),
+                                TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  controller: descriptionController,
+                                  minLines: 10,
+                                  maxLines: null,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Descrição',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -123,7 +126,7 @@ void main() async {
   await Supabase.initialize(
     url: 'https://swqmvhzmtijusbsdsbme.supabase.co',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3cW12aHptdGlqdXNic2RzYm1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjQ4Nzk2MzIsImV4cCI6MjA0MDQ1NTYzMn0.AlKL-hMyu_4DqRuSoqyFfOoJqmAKfue2sK5X8cbKkLY',
+        '',
   );
   runApp(const MyApp());
 }
