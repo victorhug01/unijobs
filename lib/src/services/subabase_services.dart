@@ -1,24 +1,30 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  Future<String?> createUid({required String uid}) async {
+  Future<Map<String, dynamic>> createUid({required String uid}) async {
     try {
-      final response = await Supabase.instance.client
-          .from('users')
-          .update({'uid': uid.toString()}).eq('id', 1);
-      // ignore: avoid_print
-      print(response);
+      final existingUser = await Supabase.instance.client.from('users').select('*').eq('uid', uid).maybeSingle();
 
-      final responses = await Supabase.instance.client
-          .from('users')
-          .insert({'uid': 'sffueffgqfxgcrhyy43t', 'name': 'Luiz', 'empresa': 'Aura'});
-      // ignore: avoid_print
-      print(responses);
+      if (existingUser == null) {
+        final newUser = await Supabase.instance.client.from('users').insert({'uid': uid});
+        return {
+          'success': true,
+          'message': 'Usuário não encontrado e foi adicionado um novo: $newUser',
+        };
+      } else {
+        return {
+          'success': false,
+          'message': 'Usuário já existente',
+        };
+      }
     } catch (error) {
-      // Lidar com outras exceções
+      // Registrar erro em um log ou enviar para uma ferramenta de monitoramento
       // ignore: avoid_print
-      print('Erro ao atualizar os dados: $error');
+      print('Erro ao criar usuário: $error');
+      return {
+        'success': false,
+        'message': 'Ocorreu um erro ao criar o usuário.',
+      };
     }
-    return null;
   }
 }
