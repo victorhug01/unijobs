@@ -21,8 +21,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,39 +77,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                               'Preencha os campos abaixo para criar sua conta e começar a usar nossos serviços. É rápido e fácil!',
                               textAlign: TextAlign.center,
                             ),
-                            const SizedBox(height: 20),
-                            ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0.0,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                backgroundColor: Colors.transparent,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                  side: BorderSide(
-                                      color: ColorSchemeManagerClass.colorBlack,
-                                      width: 2.0),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset('assets/google.png', height: 25),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    'Cadastrar com google',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: ColorSchemeManagerClass.colorBlack,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 30),
                             const Row(
                               children: <Widget>[
                                 Expanded(child: Divider()),
@@ -122,7 +89,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                             TextFormFieldComponent(
                               controller: nameController,
                               inputType: TextInputType.text,
-                              labelText: 'Nome',
+                              labelText: 'Nome completo',
                               validator: isNotEmpyt,
                               obscure: false,
                             ),

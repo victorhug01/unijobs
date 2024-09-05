@@ -44,7 +44,11 @@ class RoteadorScreen extends StatelessWidget {
         if (snapshot.hasData) {
           // ignore: avoid_print
           print('id: ${snapshot.data!.uid.toString()}');
-          supabaseUid.createUid(uid: snapshot.data!.uid.toString());
+          supabaseUid.createUid(
+            uid: snapshot.data!.uid.toString(),
+            email: snapshot.data!.email.toString(),
+            name: snapshot.data!.displayName.toString(),
+          );
           // print('Nome: ${snapshot.data!.displayName.toString()}');
           // print('Email: ${snapshot.data!.email.toString()}');
           // print('Email: ${snapshot.data!.phoneNumber.toString()}');

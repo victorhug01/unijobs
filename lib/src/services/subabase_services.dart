@@ -1,15 +1,27 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseService {
-  Future<Map<String, dynamic>> createUid({required String uid}) async {
+  Future<Map<String, dynamic>> createUid(
+      {required String uid,
+      required String name,
+      required String email}) async {
     try {
-      final existingUser = await Supabase.instance.client.from('users').select('*').eq('uid', uid).maybeSingle();
+      final existingUser = await Supabase.instance.client
+          .from('users')
+          .select('*')
+          .eq('uid', uid)
+          .maybeSingle();
 
       if (existingUser == null) {
-        final newUser = await Supabase.instance.client.from('users').insert({'uid': uid});
+        final newUser = await Supabase.instance.client.from('users').insert({
+          'uid': uid,
+          'name': name,
+          'email': email,
+        });
         return {
           'success': true,
-          'message': 'Usuário não encontrado e foi adicionado um novo: $newUser',
+          'message':
+              'Usuário não encontrado e foi adicionado um novo: $newUser',
         };
       } else {
         return {
