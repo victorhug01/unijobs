@@ -49,10 +49,15 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.all(25.0),
+                                child: Image.asset(
+                                  'assets/unimar_escrito_black.png',
+                                  width: 200,
+                                ),
+                              ),
                               SizedBox(
-                                width: responsive.isMobile
-                                    ? double.infinity
-                                    : 450,
+                                width: responsive.isMobile ? double.infinity : 450,
                                 child: Form(
                                   key: _keyForm,
                                   child: Column(
@@ -70,45 +75,15 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                         textAlign: TextAlign.center,
                                       ),
                                       const SizedBox(height: 20),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        style: ElevatedButton.styleFrom(
-                                          elevation: 0.0,
-                                          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                                          backgroundColor: Colors.transparent,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5),
-                                            side: BorderSide(
-                                              color: ColorSchemeManagerClass .colorBlack,
-                                              width: 2.0,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Image.asset('assets/google.png',
-                                                height: 25),
-                                            const SizedBox(width: 10),
-                                            Text(
-                                              'Login com google',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: ColorSchemeManagerClass.colorBlack,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
                                       const Row(
                                         children: <Widget>[
                                           Expanded(
                                             child: Divider(),
                                           ),
-                                          Text("Ou"),
+                                          Padding(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: Text("Entar"),
+                                          ),
                                           Expanded(
                                             child: Divider(),
                                           ),
@@ -146,7 +121,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                             children: [
                                               Checkbox(
                                                 activeColor:
-                                                    ColorSchemeManagerClass.colorBlack,
+                                                    ColorSchemeManagerClass
+                                                        .colorBlack,
                                                 value: isChecked,
                                                 onChanged: (bool? value) {
                                                   setState(() {
@@ -159,13 +135,14 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                           ),
                                           TextButton(
                                             onPressed: () {
-                                              Navigator.of(context).pushNamed(
-                                                  'forgotPassword');
+                                              Navigator.of(context)
+                                                  .pushNamed('forgotPassword');
                                             },
                                             child: Text(
                                               'Esqueci minha senha',
                                               style: TextStyle(
-                                                color: ColorSchemeManagerClass.colorBlack,
+                                                color: ColorSchemeManagerClass
+                                                    .colorBlack,
                                                 decoration:
                                                     TextDecoration.underline,
                                               ),
@@ -178,33 +155,47 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                         width: double.infinity,
                                         child: ElevatedButton(
                                           onPressed: () async {
-                                            if (_keyForm.currentState!.validate()) {
-                                              String email = emailController.text;
-                                              String password = passwordController.text;
-                                              final navigation = Navigator.of(context);
-
+                                            if (_keyForm.currentState!
+                                                .validate()) {
+                                              String email =
+                                                  emailController.text;
+                                              String password =
+                                                  passwordController.text;
+                                              final navigation =
+                                                  Navigator.of(context);
+                          
                                               // Exibe o CircularProgressIndicator enquanto o processo está em andamento
                                               showDialog(
                                                 context: context,
-                                                barrierDismissible: false, // Impede que o usuário feche o diálogo tocando fora
-                                                builder: (BuildContext context) {
+                                                barrierDismissible:
+                                                    false, // Impede que o usuário feche o diálogo tocando fora
+                                                builder:
+                                                    (BuildContext context) {
                                                   return const Center(
-                                                    child: CircularProgressIndicator(),
+                                                    child:
+                                                        CircularProgressIndicator(),
                                                   );
                                                 },
                                               );
-
+                          
                                               try {
                                                 // Executa o processo de login
-                                                String? error = await _authService.signInUsers(email: email, password: password);
-
+                                                String? error =
+                                                    await _authService
+                                                        .signInUsers(
+                                                            email: email,
+                                                            password: password);
+                          
                                                 // Caso haja erro, exibe um SnackBar com a mensagem
                                                 if (error != null) {
                                                   sm.showSnackBar(
                                                     SnackBar(
-                                                      backgroundColor: ColorSchemeManagerClass.colorDanger,
+                                                      backgroundColor:
+                                                          ColorSchemeManagerClass
+                                                              .colorDanger,
                                                       content: Text(error),
-                                                      duration: const Duration(seconds: 3),
+                                                      duration: const Duration(
+                                                          seconds: 3),
                                                     ),
                                                   );
                                                 }
@@ -212,9 +203,13 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                 // Lida com erros inesperados
                                                 sm.showSnackBar(
                                                   SnackBar(
-                                                    backgroundColor: ColorSchemeManagerClass.colorDanger,
-                                                    content: Text('Erro ao fazer login: $e'),
-                                                    duration: const Duration(seconds: 3),
+                                                    backgroundColor:
+                                                        ColorSchemeManagerClass
+                                                            .colorDanger,
+                                                    content: Text(
+                                                        'Erro ao fazer login: $e'),
+                                                    duration: const Duration(
+                                                        seconds: 3),
                                                   ),
                                                 );
                                               } finally {
@@ -222,7 +217,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                 navigation.pop();
                                               }
                                               _keyForm.currentState!.reset();
-                                              navigation.pushReplacementNamed('roteadorScreen');
+                                              navigation.pushReplacementNamed(
+                                                  'roteadorScreen');
                                             }
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -231,7 +227,9 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                               vertical: 15,
                                               horizontal: 10,
                                             ),
-                                            backgroundColor: ColorSchemeManagerClass.colorBlack,
+                                            backgroundColor:
+                                                ColorSchemeManagerClass
+                                                    .colorBlack,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5),
@@ -242,7 +240,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16,
-                                              color: ColorSchemeManagerClass.colorWhite,
+                                              color: ColorSchemeManagerClass
+                                                  .colorWhite,
                                             ),
                                           ),
                                         ),
@@ -258,12 +257,14 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                               padding: const EdgeInsets.all(2),
                                             ),
                                             onPressed: () {
-                                              Navigator.of(context).pushNamed('registerAuthetication');
+                                              Navigator.of(context).pushNamed(
+                                                  'registerAuthetication');
                                             },
                                             child: const Text(
                                               'clique aqui para criar uma conta',
                                               style: TextStyle(
-                                                decoration: TextDecoration.underline,
+                                                decoration:
+                                                    TextDecoration.underline,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                             ),

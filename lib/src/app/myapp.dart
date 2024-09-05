@@ -41,14 +41,15 @@ class RoteadorScreen extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
-        if(snapshot.hasData){
+        if (snapshot.hasData) {
+          // ignore: avoid_print
           print('id: ${snapshot.data!.uid.toString()}');
           supabaseUid.createUid(uid: snapshot.data!.uid.toString());
           // print('Nome: ${snapshot.data!.displayName.toString()}');
           // print('Email: ${snapshot.data!.email.toString()}');
           // print('Email: ${snapshot.data!.phoneNumber.toString()}');
           return const NavigationBottomNavigation();
-        }else{
+        } else {
           return const LoginAuthentication();
         }
       },

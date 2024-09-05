@@ -28,13 +28,11 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed('loginAuthentication');
-          },
-          icon: Icon(Icons.adaptive.arrow_back),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('loginAuthentication');
+        },
+        child: Icon(Icons.adaptive.arrow_back),
       ),
       body: Container(
         width: double.infinity,
@@ -184,7 +182,8 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                     // Exibe o CircularProgressIndicator enquanto o processo de registro está em andamento
                                     showDialog(
                                       context: context,
-                                      barrierDismissible: false, // Impede que o usuário feche o diálogo tocando fora
+                                      barrierDismissible:
+                                          false, // Impede que o usuário feche o diálogo tocando fora
                                       builder: (BuildContext context) {
                                         return const Center(
                                           child: CircularProgressIndicator(),
@@ -203,8 +202,11 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                       // Exibe um SnackBar informando que o registro foi concluído
                                       sm.showSnackBar(
                                         SnackBar(
-                                          backgroundColor: ColorSchemeManagerClass.colorCorrect,
-                                          content: const Text('Cadastro concluído!'),
+                                          backgroundColor:
+                                              ColorSchemeManagerClass
+                                                  .colorCorrect,
+                                          content:
+                                              const Text('Cadastro concluído!'),
                                           duration: const Duration(seconds: 2),
                                         ),
                                       );
@@ -213,7 +215,8 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                       sm.showSnackBar(
                                         SnackBar(
                                           backgroundColor: Colors.red,
-                                          content: Text('Erro ao registrar usuário: $e'),
+                                          content: Text(
+                                              'Erro ao registrar usuário: $e'),
                                         ),
                                       );
                                     } finally {
@@ -221,7 +224,8 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
                                       navigation.pop();
 
                                       // Realiza a navegação após fechar o CircularProgressIndicator
-                                      navigation.pushReplacementNamed('loginAuthentication');
+                                      navigation.pushReplacementNamed(
+                                          'loginAuthentication');
                                     }
 
                                     // Reseta o formulário após o processo de registro
