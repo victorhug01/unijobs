@@ -28,7 +28,8 @@ class _MyHomePageState extends State<MyHomePage> {
           final dataPost = snapshot.data!;
           return GridView.builder(
             shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            padding:
+                const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: responsive.isMobile
                   ? 1
@@ -39,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           : responsive.isDesktop
                               ? 4
                               : 4,
-              childAspectRatio: 16 / 20,
+              childAspectRatio: 16 / 18,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
             ),
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(allPosts['empresa']),
-                                  Text(allPosts['empresa'])
+                                  Text(allPosts['local'],overflow: TextOverflow.ellipsis,)
                                 ],
                               ),
                             ],
@@ -100,21 +101,19 @@ class _MyHomePageState extends State<MyHomePage> {
                           SizedBox(
                             height: 45,
                             width: responsive.width,
-                            child: Flexible(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0.0,
-                                  foregroundColor:
-                                      ColorSchemeManagerClass.colorWhite,
-                                  backgroundColor:
-                                      ColorSchemeManagerClass.colorBlack,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0.0,
+                                foregroundColor:
+                                    ColorSchemeManagerClass.colorWhite,
+                                backgroundColor:
+                                    ColorSchemeManagerClass.colorBlack,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
                                 ),
-                                child: const Text('Saiba mais'),
                               ),
+                              child: const Text('Saiba mais'),
                             ),
                           ),
                         ],

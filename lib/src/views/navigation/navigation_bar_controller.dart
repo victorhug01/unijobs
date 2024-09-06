@@ -74,17 +74,18 @@ class _NavigationBottomNavigationState
                   curve: Curves.ease,
                 );
               },
-              selectedItemColor: ColorSchemeManagerClass.colorSecondary,
+              selectedItemColor: ColorSchemeManagerClass.colorBlack,
               unselectedIconTheme:
-                  IconThemeData(color: ColorSchemeManagerClass.colorWhite),
-              selectedLabelStyle:
-                  TextStyle(color: ColorSchemeManagerClass.colorWhite),
+                  IconThemeData(color: ColorSchemeManagerClass.colorWhite,),
+              selectedLabelStyle: TextStyle(
+                color: ColorSchemeManagerClass.colorWhite,
+                fontWeight: FontWeight.bold,
+              ),
               backgroundColor: Colors.transparent,
               unselectedItemColor: ColorSchemeManagerClass.colorWhite,
               showUnselectedLabels: true,
               landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
               type: BottomNavigationBarType.fixed,
-              
               items: const [
                 BottomNavigationBarItem(
                   label: 'Postagem',
