@@ -17,7 +17,18 @@ class _MyHomePageState extends State<MyHomePage> {
     final responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seja bem vindo'),
+        leadingWidth: 235,
+        toolbarHeight: 100,
+        leading: Container(
+          alignment: Alignment.bottomRight,
+          child: const Text(
+            'Últimas postagens',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25.0,
+            ),
+          ),
+        ),
       ),
       body: FutureBuilder(
         future: _future,
@@ -68,7 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(allPosts['empresa']),
-                                  Text(allPosts['local'],overflow: TextOverflow.ellipsis,)
+                                  Text(
+                                    allPosts['local'],
+                                    overflow: TextOverflow.ellipsis,
+                                  )
                                 ],
                               ),
                             ],
@@ -99,7 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             height: 15,
                           ),
                           SizedBox(
-                            height: 45,
+                            height: responsive.isMobile || responsive.isTablet
+                                ? 30
+                                : 45,
                             width: responsive.width,
                             child: ElevatedButton(
                               onPressed: () {},

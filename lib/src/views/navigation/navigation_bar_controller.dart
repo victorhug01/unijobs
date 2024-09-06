@@ -35,6 +35,16 @@ class _NavigationBottomNavigationState
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60.0),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: AppBar(
+            leadingWidth: 150,
+            leading: Image.asset('assets/unimar_escrito_black.png'),
+          ),
+        ),
+      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: setPageActual,
