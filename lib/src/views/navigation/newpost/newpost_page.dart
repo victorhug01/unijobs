@@ -25,31 +25,6 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
   final fireUid = FirebaseAuth.instance.currentUser!.uid;
   final supabase = Supabase.instance.client;
 
-  Future sendPost({
-    required String title,
-    required String subtitle,
-    required String local,
-    required String salary,
-    required String description,
-    required String period,
-    required String enterprise,
-  }) async {
-    try {
-      final response = await supabase.from('postagem').insert({
-        'id_fk_usuario': fireUid.toString(),
-        'titulo': title,
-        'subtitulo': subtitle,
-        'local': local,
-        'salario': salary,
-        'descricao': description,
-        'periodo': period,
-        'empresa': enterprise,
-      });
-      return 'Postagem enviada! $response';
-    } catch (error) {
-      return 'Erro ao criar usuário: $error';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,29 +138,14 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                             : 450,
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            if (_keyForm.currentState!
-                                                .validate()) {
-                                              String title = titleController
-                                                  .value
-                                                  .toString();
-                                              String subtitle = titleController
-                                                  .value
-                                                  .toString();
-                                              String local = localController
-                                                  .value
-                                                  .toString();
-                                              String salary = salaryController
-                                                  .value
-                                                  .toString();
-                                              String period = periodController
-                                                  .value
-                                                  .toString();
-                                              String enterprise =
-                                                  enterpriseController.value
-                                                      .toString();
-                                              String description =
-                                                  descriptionController.value
-                                                      .toString();
+                                            if (_keyForm.currentState!.validate()) {
+                                              String title = titleController.value.text.toString();
+                                              String subtitle = titleController.value.text.toString();
+                                              String local = localController.value.text.toString();
+                                              String salary = salaryController.value.text.toString();
+                                              String period = periodController.value.text.toString();
+                                              String enterprise = enterpriseController.value.text.toString();
+                                              String description =descriptionController.value.text.toString();
                                               sendPost(
                                                 description: description,
                                                 enterprise: enterprise,
@@ -250,5 +210,31 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         ],
       ),
     );
+  }
+
+  Future sendPost({
+    required String title,
+    required String subtitle,
+    required String local,
+    required String salary,
+    required String description,
+    required String period,
+    required String enterprise,
+  }) async {
+    try {
+      final response = await supabase.from('postagem').insert({
+        'id_fk_usuario': fireUid.toString(),
+        'titulo': title,
+        'subtitulo': subtitle,
+        'local': local,
+        'salario': salary,
+        'descricao': description,
+        'periodo': period,
+        'empresa': enterprise,
+      });
+      return 'Postagem enviada! $response';
+    } catch (error) {
+      return 'Erro ao criar usuário: $error';
+    }
   }
 }
