@@ -39,4 +39,20 @@ class SupabaseService {
       };
     }
   }
+
+  // Future<dynamic>? getDataUser({required String uid}) async{
+  //   try {
+  //     final getAllData = await Supabase.instance.client
+  //         .from('users')
+  //         .select('*')
+  //         .eq('uid', uid);
+  //   } catch (error) {
+  //     // ignore: avoid_print
+  //     print('Erro ao criar usuário: $error');
+  //     return {
+  //       'success': false,
+  //       'message': 'Ocorreu um erro ao criar o usuário.',
+  //     };
+  //   }
+  // }
 }

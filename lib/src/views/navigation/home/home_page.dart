@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:unijobs/src/responsive/display_responsive.dart';
+import 'package:unijobs/src/theme/theme_color.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,15 +11,122 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  final _future = Supabase.instance.client.from('postagem').select();
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Scaffold(
-      backgroundColor: Colors.yellow,
       appBar: AppBar(
         title: const Text('Seja bem vindo'),
       ),
-      body: const Center(),
+      body: FutureBuilder(
+        future: _future,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final dataPost = snapshot.data!;
+          return GridView.builder(
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: responsive.isMobile
+                  ? 1
+                  : responsive.isTablet
+                      ? 2
+                      : responsive.isTabletLarge
+                          ? 3
+                          : responsive.isDesktop
+                              ? 4
+                              : 4,
+              childAspectRatio: 16 / 20,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+            ),
+            itemCount: dataPost.length,
+            itemBuilder: ((context, index) {
+              final allPosts = dataPost[index];
+              return Card(
+                elevation: 20.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              const FlutterLogo(),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(allPosts['empresa']),
+                                  Text(allPosts['empresa'])
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Icon(
+                            Icons.circle,
+                            color: Colors.green,
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(allPosts['titulo']),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(allPosts['subtitulo']),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            allPosts['descricao'],
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          SizedBox(
+                            height: 45,
+                            width: responsive.width,
+                            child: Flexible(
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0.0,
+                                  foregroundColor:
+                                      ColorSchemeManagerClass.colorWhite,
+                                  backgroundColor:
+                                      ColorSchemeManagerClass.colorBlack,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                child: const Text('Saiba mais'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          );
+        },
+      ),
     );
   }
 }

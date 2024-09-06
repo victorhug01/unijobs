@@ -16,7 +16,7 @@ class NavigationBottomNavigation extends StatefulWidget {
 
 class _NavigationBottomNavigationState
     extends State<NavigationBottomNavigation> {
-  int paginaAtual = 0;
+  int paginaAtual = 1;
   late PageController _pageController;
 
   @override
