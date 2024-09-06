@@ -24,190 +24,216 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   final fireUid = FirebaseAuth.instance.currentUser!.uid;
   final supabase = Supabase.instance.client;
-
+  // final _future = Supabase.instance.client.from('postagem').select('*').eq('id_fk_usuario', FirebaseAuth.instance.currentUser!.uid);
 
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return Scaffold(
-      body: Column(
-        children: [
-          Text(fireUid),
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text('teste curto'),
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/fundo_circulo.png",
+            ),
+            fit: BoxFit.cover,
           ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  barrierDismissible: true,
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Material(
-                          child: Card(
-                            child: SingleChildScrollView(
-                              child: Container(
-                                padding: const EdgeInsets.all(40.0),
-                                width:
-                                    (responsive.isMobile || responsive.isTablet)
-                                        ? MediaQuery.of(context).size.width *
-                                            0.9 // 90% da largura da tela
-                                        : 700,
-                                child: Form(
-                                  key: _keyForm,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      TextFormFieldComponent(
-                                        iconP: const Icon(
-                                            Icons.text_fields_rounded),
-                                        controller: titleController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Título',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 15),
-                                      TextFormFieldComponent(
-                                        iconP: const Icon(
-                                            Icons.text_fields_rounded),
-                                        controller: subtitleController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Subtítulo',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 15),
-                                      TextFormFieldComponent(
-                                        iconP: const Icon(Icons.location_on),
-                                        controller: localController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Local',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 15),
-                                      TextFormFieldComponent(
-                                        iconP:
-                                            const Icon(Icons.monetization_on),
-                                        controller: salaryController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Salário',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 15),
-                                      TextFormFieldComponent(
-                                        iconP: const Icon(Icons.date_range),
-                                        controller: periodController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Período',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 15),
-                                      TextFormFieldComponent(
-                                        iconP: const Icon(Icons.apartment),
-                                        controller: enterpriseController,
-                                        inputType: TextInputType.text,
-                                        obscure: false,
-                                        labelText: 'Nome empresa',
-                                        validator: isNotEmpyt,
-                                      ),
-                                      const SizedBox(height: 25),
-                                      TextFormField(
-                                        keyboardType: TextInputType.multiline,
-                                        controller: descriptionController,
-                                        minLines: 10,
-                                        maxLines: null,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Descrição',
-                                          border: OutlineInputBorder(),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: Material(
+                            child: Card(
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  padding: const EdgeInsets.all(40.0),
+                                  width: (responsive.isMobile ||
+                                          responsive.isTablet)
+                                      ? MediaQuery.of(context).size.width *
+                                          0.9 // 90% da largura da tela
+                                      : 700,
+                                  child: Form(
+                                    key: _keyForm,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextFormFieldComponent(
+                                          iconP: const Icon(
+                                              Icons.text_fields_rounded),
+                                          controller: titleController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Título',
+                                          validator: isNotEmpyt,
                                         ),
-                                        validator: isNotEmpyt,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.all(15),
-                                        height: 80,
-                                        width: responsive.isMobile
-                                            ? double.infinity
-                                            : 450,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            if (_keyForm.currentState!.validate()) {
-                                              String title = titleController.value.text.toString();
-                                              String subtitle = titleController.value.text.toString();
-                                              String local = localController.value.text.toString();
-                                              String salary = salaryController.value.text.toString();
-                                              String period = periodController.value.text.toString();
-                                              String enterprise = enterpriseController.value.text.toString();
-                                              String description =descriptionController.value.text.toString();
-                                              sendPost(
-                                                description: description,
-                                                enterprise: enterprise,
-                                                local: local,
-                                                period: period,
-                                                salary: salary,
-                                                subtitle: subtitle,
-                                                title: title,
-                                              );
-                                              _keyForm.currentState!.reset();
-                                            }
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            elevation: 0.0,
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 15,
-                                              horizontal: 10,
-                                            ),
-                                            backgroundColor:
-                                                ColorSchemeManagerClass
-                                                    .colorSecondary,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            foregroundColor:
-                                                ColorSchemeManagerClass
-                                                    .colorWhite,
+                                        const SizedBox(height: 15),
+                                        TextFormFieldComponent(
+                                          iconP: const Icon(
+                                              Icons.text_fields_rounded),
+                                          controller: subtitleController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Subtítulo',
+                                          validator: isNotEmpyt,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormFieldComponent(
+                                          iconP: const Icon(Icons.location_on),
+                                          controller: localController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Local',
+                                          validator: isNotEmpyt,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormFieldComponent(
+                                          iconP:
+                                              const Icon(Icons.monetization_on),
+                                          controller: salaryController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Salário',
+                                          validator: isNotEmpyt,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormFieldComponent(
+                                          iconP: const Icon(Icons.date_range),
+                                          controller: periodController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Período',
+                                          validator: isNotEmpyt,
+                                        ),
+                                        const SizedBox(height: 15),
+                                        TextFormFieldComponent(
+                                          iconP: const Icon(Icons.apartment),
+                                          controller: enterpriseController,
+                                          inputType: TextInputType.text,
+                                          obscure: false,
+                                          labelText: 'Nome empresa',
+                                          validator: isNotEmpyt,
+                                        ),
+                                        const SizedBox(height: 25),
+                                        TextFormField(
+                                          keyboardType: TextInputType.multiline,
+                                          controller: descriptionController,
+                                          minLines: 10,
+                                          maxLines: null,
+                                          decoration: const InputDecoration(
+                                            hintText: 'Descrição',
+                                            border: OutlineInputBorder(),
                                           ),
-                                          child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text('Postar vaga'),
-                                              SizedBox(width: 10),
-                                              Icon(Icons.send)
-                                            ],
+                                          validator: isNotEmpyt,
+                                        ),
+                                        Container(
+                                          padding: const EdgeInsets.all(15),
+                                          height: 80,
+                                          width: responsive.isMobile
+                                              ? double.infinity
+                                              : 450,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              if (_keyForm.currentState!
+                                                  .validate()) {
+                                                String title = titleController
+                                                    .value.text
+                                                    .toString();
+                                                String subtitle =
+                                                    titleController.value.text
+                                                        .toString();
+                                                String local = localController
+                                                    .value.text
+                                                    .toString();
+                                                String salary = salaryController
+                                                    .value.text
+                                                    .toString();
+                                                String period = periodController
+                                                    .value.text
+                                                    .toString();
+                                                String enterprise =
+                                                    enterpriseController
+                                                        .value.text
+                                                        .toString();
+                                                String description =
+                                                    descriptionController
+                                                        .value.text
+                                                        .toString();
+                                                sendPost(
+                                                  description: description,
+                                                  enterprise: enterprise,
+                                                  local: local,
+                                                  period: period,
+                                                  salary: salary,
+                                                  subtitle: subtitle,
+                                                  title: title,
+                                                );
+                                                _keyForm.currentState!.reset();
+                                                Navigator.of(context).pop();
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              elevation: 0.0,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 15,
+                                                horizontal: 10,
+                                              ),
+                                              backgroundColor:
+                                                  ColorSchemeManagerClass
+                                                      .colorSecondary,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              foregroundColor:
+                                                  ColorSchemeManagerClass
+                                                      .colorWhite,
+                                            ),
+                                            child: const Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text('Postar vaga'),
+                                                SizedBox(width: 10),
+                                                Icon(Icons.send)
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                );
-              },
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  Text('Nova Postagem'),
-                ],
+                      );
+                    },
+                  );
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add),
+                    Text('Nova Postagem'),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

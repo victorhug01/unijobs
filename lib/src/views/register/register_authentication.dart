@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
 import 'package:unijobs/src/services/authentication_service.dart';
@@ -13,8 +14,7 @@ class RegisterAuthentication extends StatefulWidget {
   State<RegisterAuthentication> createState() => _RegisterAuthenticationState();
 }
 
-class _RegisterAuthenticationState extends State<RegisterAuthentication>
-    with ValidationMixinClass {
+class _RegisterAuthenticationState extends State<RegisterAuthentication> with ValidationMixinClass {
   bool? isChecked = false;
   final AuthenticationService _authService = AuthenticationService();
   final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
@@ -22,6 +22,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication>
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+  final _future = Supabase.instance.client.from('countries').select();
 
   @override
   Widget build(BuildContext context) {
