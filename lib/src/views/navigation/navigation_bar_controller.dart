@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
+import 'package:unijobs/src/services/authentication_service.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/views/navigation/home/home_page.dart';
 import 'package:unijobs/src/views/navigation/newpost/newpost_page.dart';
@@ -18,6 +19,7 @@ class _NavigationBottomNavigationState
     extends State<NavigationBottomNavigation> {
   int paginaAtual = 1;
   late PageController _pageController;
+  final AuthenticationService _authService = AuthenticationService();
 
   @override
   void initState() {
@@ -42,6 +44,13 @@ class _NavigationBottomNavigationState
           child: AppBar(
             leadingWidth: 150,
             leading: Image.asset('assets/unimar_escrito_black.png'),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    _authService.logOut();
+                  },
+                  icon: const Icon(Icons.exit_to_app))
+            ],
           ),
         ),
       ),
@@ -85,8 +94,9 @@ class _NavigationBottomNavigationState
                 );
               },
               selectedItemColor: ColorSchemeManagerClass.colorBlack,
-              unselectedIconTheme:
-                  IconThemeData(color: ColorSchemeManagerClass.colorWhite,),
+              unselectedIconTheme: IconThemeData(
+                color: ColorSchemeManagerClass.colorWhite,
+              ),
               selectedLabelStyle: TextStyle(
                 color: ColorSchemeManagerClass.colorWhite,
                 fontWeight: FontWeight.bold,

@@ -25,12 +25,23 @@ class _SearchPageState extends State<SearchPage> {
             return const Center(child: CircularProgressIndicator());
           }
           final dataPost = snapshot.data!;
-          final filteredData = dataPost.where((post) =>
-              post['empresa'].toLowerCase().contains(_searchText.toLowerCase()) ||
-              post['local'].toLowerCase().contains(_searchText.toLowerCase()) ||
-              post['titulo'].toLowerCase().contains(_searchText.toLowerCase()) ||
-              post['subtitulo'].toLowerCase().contains(_searchText.toLowerCase()) ||
-              post['descricao'].toLowerCase().contains(_searchText.toLowerCase()))
+          final filteredData = dataPost
+              .where((post) =>
+                  post['empresa']
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()) ||
+                  post['local']
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()) ||
+                  post['titulo']
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()) ||
+                  post['subtitulo']
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()) ||
+                  post['descricao']
+                      .toLowerCase()
+                      .contains(_searchText.toLowerCase()))
               .toList();
           return Column(
             children: [
@@ -56,7 +67,8 @@ class _SearchPageState extends State<SearchPage> {
               ),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 20.0),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: responsive.isMobile
                         ? 1
@@ -66,8 +78,10 @@ class _SearchPageState extends State<SearchPage> {
                                 ? 3
                                 : responsive.isDesktop
                                     ? 4
-                                    : 4,
-                    childAspectRatio: 16 / 18,
+                                    : responsive.isDesktopLarge
+                                        ? 6
+                                        : 6,
+                    childAspectRatio: 16 / 20,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
                   ),
@@ -90,9 +104,11 @@ class _SearchPageState extends State<SearchPage> {
                                     const FlutterLogo(),
                                     const SizedBox(width: 15),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        Text(allPosts['empresa']),
+                                        Text(allPosts['empresa'],
+                                          overflow: TextOverflow.ellipsis),
                                         Text(
                                           allPosts['local'],
                                           overflow: TextOverflow.ellipsis,
@@ -110,25 +126,32 @@ class _SearchPageState extends State<SearchPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(allPosts['titulo']),
+                                Text(allPosts['titulo'],
+                                          overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 5),
-                                Text(allPosts['subtitulo']),
+                                Text(allPosts['subtitulo'],
+                                          overflow: TextOverflow.ellipsis),
                                 const SizedBox(height: 15),
                                 Text(
                                   allPosts['descricao'],
-                                  maxLines: 3,
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 15),
                                 SizedBox(
-                                  height: responsive.isMobile || responsive.isTablet ? 30 : 45,
+                                  height:
+                                      responsive.isMobile || responsive.isTablet
+                                          ? 30
+                                          : 45,
                                   width: responsive.width,
                                   child: ElevatedButton(
                                     onPressed: () {},
                                     style: ElevatedButton.styleFrom(
                                       elevation: 0.0,
-                                      foregroundColor: ColorSchemeManagerClass.colorWhite,
-                                      backgroundColor: ColorSchemeManagerClass.colorBlack,
+                                      foregroundColor:
+                                          ColorSchemeManagerClass.colorWhite,
+                                      backgroundColor:
+                                          ColorSchemeManagerClass.colorBlack,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),

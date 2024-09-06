@@ -50,8 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           ? 3
                           : responsive.isDesktop
                               ? 4
-                              : 4,
-              childAspectRatio: 16 / 18,
+                              : responsive.isDesktopLarge
+                              ?6
+                              :6,
+              childAspectRatio: 16 / 20,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
             ),
@@ -78,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(allPosts['empresa']),
+                                  Text(allPosts['empresa'],
+                                    overflow: TextOverflow.ellipsis,),
                                   Text(
                                     allPosts['local'],
                                     overflow: TextOverflow.ellipsis,
@@ -96,17 +99,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(allPosts['titulo']),
+                          Text(allPosts['titulo'],
+                                    overflow: TextOverflow.ellipsis,),
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(allPosts['subtitulo']),
+                          Text(allPosts['subtitulo'],
+                                    overflow: TextOverflow.ellipsis,),
                           const SizedBox(
                             height: 15,
                           ),
                           Text(
                             allPosts['descricao'],
-                            maxLines: 3,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(
