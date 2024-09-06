@@ -1,6 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
 import 'package:unijobs/src/components/textformfields/textformfield_component.dart';
 import 'package:unijobs/src/services/authentication_service.dart';
@@ -22,7 +21,6 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication> with Va
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
-  final _future = Supabase.instance.client.from('countries').select();
 
   @override
   Widget build(BuildContext context) {
