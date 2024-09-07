@@ -90,6 +90,12 @@ class _SearchPageState extends State<SearchPage> {
                   itemBuilder: (context, index) {
                     final allPosts = filteredData[index];
                     return Card(
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: ColorSchemeManagerClass.colorSecondary
+                      ),
+                    ),
                       elevation: 20.0,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),

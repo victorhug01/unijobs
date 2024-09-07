@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
 import 'package:unijobs/src/services/authentication_service.dart';
@@ -53,6 +55,14 @@ class _NavigationBottomNavigationState
       ),
       body: Stack(
         children: [
+          CustomPaint(
+            size: const Size(double.infinity, double.infinity),
+            painter: CircleBackgroundPainter(),
+          ),
+          GlassmorphismContainer(
+            width: double.infinity,
+            height: double.infinity,
+          ),
           PageView(
             controller: _pageController,
             onPageChanged: setPageActual,
@@ -128,5 +138,75 @@ class _NavigationBottomNavigationState
         ],
       ),
     );
+  }
+}
+
+class GlassmorphismContainer extends StatelessWidget {
+  final double width;
+  final double height;
+
+  const GlassmorphismContainer({
+    super.key, // Add this line
+    required this.width,
+    required this.height,
+  }); // Pass the key to the superclass constructor
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white.withOpacity(0.50), // Cor branca com opacidade
+        border: Border.all(
+          color: Colors.white.withOpacity(0.3), // Borda branca com opacidade
+          width: 1,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            color: Colors.black.withOpacity(0), // Cor de fundo transparente
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CircleBackgroundPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Primeiro círculo (inferior esquerdo)
+    final Paint circle1Paint = Paint()
+      ..shader = const RadialGradient(
+        colors: [Colors.blue, Colors.black],
+        center: Alignment.center,
+        radius: 0.8,
+      ).createShader(Rect.fromCircle(
+          center: Offset(size.width * 0.25, size.height * 0.75), radius: 150));
+
+    canvas.drawCircle(
+        Offset(size.width * 0.10, size.height * 0.85), 150, circle1Paint);
+
+    // Segundo círculo (superior direito)
+    final Paint circle2Paint = Paint()
+      ..shader = const RadialGradient(
+        colors: [Colors.blue, Colors.black],
+        center: Alignment.center,
+        radius: 0.8,
+      ).createShader(Rect.fromCircle(
+          center: Offset(size.width * 0.75, size.height * 0.25), radius: 150));
+
+    canvas.drawCircle(
+        Offset(size.width * 0.95, size.height * 0.10), 150, circle2Paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

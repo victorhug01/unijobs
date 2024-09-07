@@ -62,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemBuilder: ((context, index) {
                   final allPosts = dataPost[index];
                   return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: ColorSchemeManagerClass.colorSecondary
+                      ),
+                    ),
                     elevation: 2.0,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -106,12 +112,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               Text(
                                 allPosts['titulo'],
                                 overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
                               ),
                               const SizedBox(
-                                height: 5,
+                                height: 3,
                               ),
                               Text(
                                 allPosts['subtitulo'],
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const SizedBox(
