@@ -34,15 +34,27 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
   }
 
   Future<List<Map<String, dynamic>>> _fetchPosts() async {
-    final response = await supabase.from('postagem').select('*').eq('id_fk_usuario', fireUid);
+    final response = await supabase
+        .from('postagem')
+        .select('*')
+        .eq('id_fk_usuario', fireUid);
+
+    // Adicione logs para verificar os dados retornados
+    print('Dados retornados: $response');
+
     return response as List<Map<String, dynamic>>;
   }
 
   Future<void> _deletePost(int postId) async {
   try {
-    final response = await supabase.from('postagem').delete().eq('id', postId);
+    final response = await supabase.from('postagem').delete().eq('id_postagem', postId);
     if (response.error == null) {
-      // ... (existing code for successful deletion)
+      setState(() {
+        _future = _fetchPosts(); // Atualize a lista de postagens após exclusão
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Postagem excluída com sucesso!')),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erro ao excluir postagem: ${response.error!.message}')),
@@ -54,6 +66,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
     );
   }
 }
+
 
   Future<void> _addPost({
     required String title,
@@ -84,7 +97,9 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao criar postagem: ${response.error!.message}')),
+          SnackBar(
+              content:
+                  Text('Erro ao criar postagem: ${response.error!.message}')),
         );
       }
     } catch (error) {
@@ -118,7 +133,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                             child: SingleChildScrollView(
                               child: Container(
                                 padding: const EdgeInsets.all(40.0),
-                                width: (responsive.isMobile || responsive.isTablet)
+                                width: (responsive.isMobile ||
+                                        responsive.isTablet)
                                     ? MediaQuery.of(context).size.width * 0.9
                                     : 700,
                                 child: Form(
@@ -127,7 +143,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       TextFormFieldComponent(
-                                        iconP: const Icon(Icons.text_fields_rounded),
+                                        iconP: const Icon(
+                                            Icons.text_fields_rounded),
                                         controller: titleController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -136,7 +153,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                       ),
                                       const SizedBox(height: 15),
                                       TextFormFieldComponent(
-                                        iconP: const Icon(Icons.text_fields_rounded),
+                                        iconP: const Icon(
+                                            Icons.text_fields_rounded),
                                         controller: subtitleController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -154,7 +172,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                       ),
                                       const SizedBox(height: 15),
                                       TextFormFieldComponent(
-                                        iconP: const Icon(Icons.monetization_on),
+                                        iconP:
+                                            const Icon(Icons.monetization_on),
                                         controller: salaryController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -199,14 +218,24 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                             : 450,
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            if (_keyForm.currentState!.validate()) {
-                                              String title = titleController.value.text;
-                                              String subtitle = subtitleController.value.text;
-                                              String local = localController.value.text;
-                                              String salary = salaryController.value.text;
-                                              String period = periodController.value.text;
-                                              String enterprise = enterpriseController.value.text;
-                                              String description = descriptionController.value.text;
+                                            if (_keyForm.currentState!
+                                                .validate()) {
+                                              String title =
+                                                  titleController.value.text;
+                                              String subtitle =
+                                                  subtitleController.value.text;
+                                              String local =
+                                                  localController.value.text;
+                                              String salary =
+                                                  salaryController.value.text;
+                                              String period =
+                                                  periodController.value.text;
+                                              String enterprise =
+                                                  enterpriseController
+                                                      .value.text;
+                                              String description =
+                                                  descriptionController
+                                                      .value.text;
                                               _addPost(
                                                 description: description,
                                                 enterprise: enterprise,
@@ -226,14 +255,20 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                               vertical: 15,
                                               horizontal: 10,
                                             ),
-                                            backgroundColor: ColorSchemeManagerClass.colorSecondary,
+                                            backgroundColor:
+                                                ColorSchemeManagerClass
+                                                    .colorSecondary,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                            foregroundColor: ColorSchemeManagerClass.colorWhite,
+                                            foregroundColor:
+                                                ColorSchemeManagerClass
+                                                    .colorWhite,
                                           ),
                                           child: const Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text('Postar vaga'),
                                               SizedBox(width: 10),
@@ -287,7 +322,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: const Text('Confirmar Exclusão'),
-                                content: const Text('Tem certeza de que deseja excluir esta postagem?'),
+                                content: const Text(
+                                    'Tem certeza de que deseja excluir esta postagem?'),
                                 actions: [
                                   TextButton(
                                     child: const Text('Cancelar'),
@@ -298,7 +334,27 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                   TextButton(
                                     child: const Text('Excluir'),
                                     onPressed: () {
-                                      _deletePost(post['id']);
+                                      final idStr = post['id_postagem']?.toString();
+                                      if (idStr != null && idStr.isNotEmpty) {
+                                        final postId = int.tryParse(post['id_postagem']?.toString() ?? '');
+                                        if (postId != null) {
+                                          _deletePost(postId);
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    'ID da postagem é inválido')),
+                                          );
+                                        }
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                              content: Text(
+                                                  'ID da postagem está vazio')),
+                                        );
+                                      }
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -344,7 +400,6 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
               },
             ),
           ),
-          
         ],
       ),
     );
