@@ -24,7 +24,75 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
   final GlobalKey<FormState> _keyForm = GlobalKey();
   final fireUid = FirebaseAuth.instance.currentUser!.uid;
   final supabase = Supabase.instance.client;
-  // final _future = Supabase.instance.client.from('postagem').select('*').eq('id_fk_usuario', FirebaseAuth.instance.currentUser!.uid);
+
+  late Future<List<Map<String, dynamic>>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = _fetchPosts();
+  }
+
+  Future<List<Map<String, dynamic>>> _fetchPosts() async {
+    final response = await supabase.from('postagem').select('*').eq('id_fk_usuario', fireUid);
+    return response as List<Map<String, dynamic>>;
+  }
+
+  Future<void> _deletePost(int postId) async {
+  try {
+    final response = await supabase.from('postagem').delete().eq('id', postId);
+    if (response.error == null) {
+      // ... (existing code for successful deletion)
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao excluir postagem: ${response.error!.message}')),
+      );
+    }
+  } catch (error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Erro ao excluir postagem: $error')),
+    );
+  }
+}
+
+  Future<void> _addPost({
+    required String title,
+    required String subtitle,
+    required String local,
+    required String salary,
+    required String description,
+    required String period,
+    required String enterprise,
+  }) async {
+    try {
+      final response = await supabase.from('postagem').insert({
+        'id_fk_usuario': fireUid.toString(),
+        'titulo': title,
+        'subtitulo': subtitle,
+        'local': local,
+        'salario': salary,
+        'descricao': description,
+        'periodo': period,
+        'empresa': enterprise,
+      });
+      if (response.error == null) {
+        setState(() {
+          _future = _fetchPosts();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Postagem criada com sucesso!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao criar postagem: ${response.error!.message}')),
+        );
+      }
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao criar postagem: $error')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +102,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
               onPressed: () {
                 showDialog(
@@ -49,10 +118,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                             child: SingleChildScrollView(
                               child: Container(
                                 padding: const EdgeInsets.all(40.0),
-                                width: (responsive.isMobile ||
-                                        responsive.isTablet)
-                                    ? MediaQuery.of(context).size.width *
-                                        0.9 // 90% da largura da tela
+                                width: (responsive.isMobile || responsive.isTablet)
+                                    ? MediaQuery.of(context).size.width * 0.9
                                     : 700,
                                 child: Form(
                                   key: _keyForm,
@@ -60,8 +127,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       TextFormFieldComponent(
-                                        iconP: const Icon(
-                                            Icons.text_fields_rounded),
+                                        iconP: const Icon(Icons.text_fields_rounded),
                                         controller: titleController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -70,8 +136,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                       ),
                                       const SizedBox(height: 15),
                                       TextFormFieldComponent(
-                                        iconP: const Icon(
-                                            Icons.text_fields_rounded),
+                                        iconP: const Icon(Icons.text_fields_rounded),
                                         controller: subtitleController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -89,8 +154,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                       ),
                                       const SizedBox(height: 15),
                                       TextFormFieldComponent(
-                                        iconP:
-                                            const Icon(Icons.monetization_on),
+                                        iconP: const Icon(Icons.monetization_on),
                                         controller: salaryController,
                                         inputType: TextInputType.text,
                                         obscure: false,
@@ -135,32 +199,15 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                             : 450,
                                         child: ElevatedButton(
                                           onPressed: () {
-                                            if (_keyForm.currentState!
-                                                .validate()) {
-                                              String title = titleController
-                                                  .value.text
-                                                  .toString();
-                                              String subtitle =
-                                                  titleController.value.text
-                                                      .toString();
-                                              String local = localController
-                                                  .value.text
-                                                  .toString();
-                                              String salary = salaryController
-                                                  .value.text
-                                                  .toString();
-                                              String period = periodController
-                                                  .value.text
-                                                  .toString();
-                                              String enterprise =
-                                                  enterpriseController
-                                                      .value.text
-                                                      .toString();
-                                              String description =
-                                                  descriptionController
-                                                      .value.text
-                                                      .toString();
-                                              sendPost(
+                                            if (_keyForm.currentState!.validate()) {
+                                              String title = titleController.value.text;
+                                              String subtitle = subtitleController.value.text;
+                                              String local = localController.value.text;
+                                              String salary = salaryController.value.text;
+                                              String period = periodController.value.text;
+                                              String enterprise = enterpriseController.value.text;
+                                              String description = descriptionController.value.text;
+                                              _addPost(
                                                 description: description,
                                                 enterprise: enterprise,
                                                 local: local,
@@ -175,29 +222,22 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                           },
                                           style: ElevatedButton.styleFrom(
                                             elevation: 0.0,
-                                            padding:
-                                                const EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                               vertical: 15,
                                               horizontal: 10,
                                             ),
-                                            backgroundColor:
-                                                ColorSchemeManagerClass
-                                                    .colorSecondary,
+                                            backgroundColor: ColorSchemeManagerClass.colorSecondary,
                                             shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
+                                              borderRadius: BorderRadius.circular(5),
                                             ),
-                                            foregroundColor:
-                                                ColorSchemeManagerClass
-                                                    .colorWhite,
+                                            foregroundColor: ColorSchemeManagerClass.colorWhite,
                                           ),
                                           child: const Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text('Postar vaga'),
                                               SizedBox(width: 10),
-                                              Icon(Icons.send)
+                                              Icon(Icons.send),
                                             ],
                                           ),
                                         ),
@@ -223,34 +263,90 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
               ),
             ),
           ),
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final posts = snapshot.data!;
+                return ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    return ListTile(
+                      title: Text(post['titulo']),
+                      subtitle: Text(post['empresa']),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('Confirmar Exclusão'),
+                                content: const Text('Tem certeza de que deseja excluir esta postagem?'),
+                                actions: [
+                                  TextButton(
+                                    child: const Text('Cancelar'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: const Text('Excluir'),
+                                    onPressed: () {
+                                      _deletePost(post['id']);
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(post['titulo']),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: [
+                                    Text('Empresa: ${post['empresa']}'),
+                                    Text('Local: ${post['local']}'),
+                                    Text('Descrição: ${post['descricao']}'),
+                                    Text('Período: ${post['periodo']}'),
+                                    Text('Salário: ${post['salario']}'),
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Fechar'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          
         ],
       ),
     );
-  }
-
-  Future sendPost({
-    required String title,
-    required String subtitle,
-    required String local,
-    required String salary,
-    required String description,
-    required String period,
-    required String enterprise,
-  }) async {
-    try {
-      final response = await supabase.from('postagem').insert({
-        'id_fk_usuario': fireUid.toString(),
-        'titulo': title,
-        'subtitulo': subtitle,
-        'local': local,
-        'salario': salary,
-        'descricao': description,
-        'periodo': period,
-        'empresa': enterprise,
-      });
-      return 'Postagem enviada! $response';
-    } catch (error) {
-      return 'Erro ao criar usuário: $error';
-    }
   }
 }
