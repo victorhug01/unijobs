@@ -56,14 +56,12 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         const SnackBar(content: Text('Postagem excluída com sucesso!')),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao excluir postagem: ${response.error!.message}')),
-      );
+      // ignore: avoid_print
+      print('Erro ao excluir postagem: ${response.error!.message}');
     }
   } catch (error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erro ao excluir postagem: $error')),
-    );
+    // ignore: avoid_print
+    print('Erro ao excluir postagem: $error');
   }
 }
 
@@ -103,9 +101,8 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         );
       }
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao criar postagem: $error')),
-      );
+      // ignore: avoid_print
+      print(error);
     }
   }
 
@@ -339,14 +336,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                         final postId = int.tryParse(post['id_postagem']?.toString() ?? '');
                                         if (postId != null) {
                                           _deletePost(postId);
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                                content: Text(
-                                                    'ID da postagem é inválido')),
-                                          );
-                                        }
+                                        } 
                                       } else {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
