@@ -6,7 +6,6 @@ import 'package:unijobs/src/services/authentication_service.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
 import 'package:unijobs/src/views/navigation/home/home_page.dart';
 import 'package:unijobs/src/views/navigation/newpost/newpost_page.dart';
-import 'package:unijobs/src/views/navigation/profile/profile_page.dart';
 import 'package:unijobs/src/views/navigation/search/search_page.dart';
 
 class NavigationBottomNavigation extends StatefulWidget {
@@ -59,10 +58,6 @@ class _NavigationBottomNavigationState
             size: const Size(double.infinity, double.infinity),
             painter: CircleBackgroundPainter(),
           ),
-          GlassmorphismContainer(
-            width: double.infinity,
-            height: double.infinity,
-          ),
           PageView(
             controller: _pageController,
             onPageChanged: setPageActual,
@@ -70,7 +65,6 @@ class _NavigationBottomNavigationState
               NewpostPage(),
               MyHomePage(),
               SearchPage(),
-              ProfilePage(),
             ],
           ),
         ],
@@ -128,50 +122,10 @@ class _NavigationBottomNavigationState
                 ),
                 BottomNavigationBarItem(
                     label: 'Buscar', icon: Icon(Icons.search)),
-                BottomNavigationBarItem(
-                  label: 'Usuário',
-                  icon: Icon(Icons.person),
-                ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class GlassmorphismContainer extends StatelessWidget {
-  final double width;
-  final double height;
-
-  const GlassmorphismContainer({
-    super.key,
-    required this.width,
-    required this.height,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withOpacity(0.50),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Container(
-            color: Colors.black.withOpacity(0),
-          ),
-        ),
       ),
     );
   }

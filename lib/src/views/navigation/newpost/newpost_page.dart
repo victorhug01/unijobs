@@ -39,7 +39,6 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         .select('*')
         .eq('id_fk_usuario', fireUid);
 
-    
     print('Dados retornados: $response');
 
     return response as List<Map<String, dynamic>>;
@@ -58,11 +57,9 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
           const SnackBar(content: Text('Postagem excluída com sucesso!')),
         );
       } else {
-        
         print('Erro ao excluir postagem: ${response.error!.message}');
       }
     } catch (error) {
-      
       print('Erro ao excluir postagem: $error');
     }
   }
@@ -102,7 +99,6 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         );
       }
     } catch (error) {
-      
       print(error);
     }
   }
@@ -203,7 +199,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                                         minLines: 10,
                                         maxLines: null,
                                         decoration: const InputDecoration(
-                                          hintText: 'Descrição',
+                                          hintText: 'Descrição (coloque formas de contato)',
                                           border: OutlineInputBorder(),
                                         ),
                                         validator: isNotEmpyt,
@@ -312,50 +308,94 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                       final post = posts[index];
                       return Padding(
                         padding: const EdgeInsets.all(10),
-                        child: ListTile(
-                          tileColor: ColorSchemeManagerClass.colorWhite,
-                          title: Text(post['titulo']),
-                          subtitle: Text(post['empresa']),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                ColorSchemeManagerClass.colorPrimary.withOpacity(0.8),
+                                ColorSchemeManagerClass.colorSecondary.withOpacity(0.8),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(16),
+                            tileColor: Colors.transparent,
+                            title: Text(post['titulo']),
+                            subtitle: Text(post['empresa']),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Confirmar Exclusão'),
+                                      content: const Text(
+                                          'Tem certeza de que deseja excluir esta postagem?'),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Cancelar'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: const Text('Excluir'),
+                                          onPressed: () {
+                                            final idStr =
+                                                post['id_postagem']?.toString();
+                                            if (idStr != null && idStr.isNotEmpty) {
+                                              final postId = int.tryParse(
+                                                  post['id_postagem']?.toString() ??
+                                                      '');
+                                              if (postId != null) {
+                                                _deletePost(postId);
+                                              }
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                    content: Text(
+                                                        'ID da postagem está vazio')),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            Navigator.pushReplacementNamed(context, 'roteadorScreen');
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                            onTap: () {
                               showDialog(
                                 context: context,
                                 barrierDismissible: true,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: const Text('Confirmar Exclusão'),
-                                    content: const Text(
-                                        'Tem certeza de que deseja excluir esta postagem?'),
+                                    title: Text(post['titulo']),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: [
+                                          Text('Empresa: ${post['empresa']}'),
+                                          Text('Local: ${post['local']}'),
+                                          Text('Descrição: ${post['descricao']}'),
+                                          Text('Período: ${post['periodo']}'),
+                                          Text('Salário: ${post['salario']}'),
+                                        ],
+                                      ),
+                                    ),
                                     actions: [
                                       TextButton(
-                                        child: const Text('Cancelar'),
+                                        child: const Text('Fechar'),
                                         onPressed: () {
                                           Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: const Text('Excluir'),
-                                        onPressed: () {
-                                          final idStr =
-                                              post['id_postagem']?.toString();
-                                          if (idStr != null && idStr.isNotEmpty) {
-                                            final postId = int.tryParse(
-                                                post['id_postagem']?.toString() ??
-                                                    '');
-                                            if (postId != null) {
-                                              _deletePost(postId);
-                                            }
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                  content: Text(
-                                                      'ID da postagem está vazio')),
-                                            );
-                                          }
-                                          Navigator.of(context).pop();
-                                          Navigator.pushReplacementNamed(context, 'roteadorScreen');
                                         },
                                       ),
                                     ],
@@ -364,36 +404,6 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
                               );
                             },
                           ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text(post['titulo']),
-                                  content: SingleChildScrollView(
-                                    child: ListBody(
-                                      children: [
-                                        Text('Empresa: ${post['empresa']}'),
-                                        Text('Local: ${post['local']}'),
-                                        Text('Descrição: ${post['descricao']}'),
-                                        Text('Período: ${post['periodo']}'),
-                                        Text('Salário: ${post['salario']}'),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text('Fechar'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
                         ),
                       );
                     },
