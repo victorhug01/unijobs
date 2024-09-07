@@ -132,7 +132,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                         : 45,
                                 width: responsive.width,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    // Função para exibir o diálogo com informações do card
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(allPosts['titulo']),
+                                          content: SingleChildScrollView(
+                                            child: ListBody(
+                                              children: [
+                                                Text('Empresa: ${allPosts['empresa']}'),
+                                                Text('Local: ${allPosts['local']}'),
+                                                Text('Descrição: ${allPosts['descricao']}'),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text('Fechar'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     elevation: 0.0,
                                     foregroundColor:
