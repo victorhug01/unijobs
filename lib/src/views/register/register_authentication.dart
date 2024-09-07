@@ -145,11 +145,11 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication> with Va
                                     String email = emailController.text;
                                     String password = passwordController.text;
 
-                                    // Exibe o CircularProgressIndicator enquanto o processo de registro está em andamento
+                                    
                                     showDialog(
                                       context: context,
                                       barrierDismissible:
-                                          false, // Impede que o usuário feche o diálogo tocando fora
+                                          false, 
                                       builder: (BuildContext context) {
                                         return const Center(
                                           child: CircularProgressIndicator(),
@@ -158,14 +158,14 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication> with Va
                                     );
 
                                     try {
-                                      // Executa o processo de registro
+                                      
                                       await _authService.registerUser(
                                         name: name,
                                         email: email,
                                         password: password,
                                       );
 
-                                      // Exibe um SnackBar informando que o registro foi concluído
+                                      
                                       sm.showSnackBar(
                                         SnackBar(
                                           backgroundColor:
@@ -177,7 +177,7 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication> with Va
                                         ),
                                       );
                                     } catch (e) {
-                                      // Lida com erros durante o registro
+                                      
                                       sm.showSnackBar(
                                         SnackBar(
                                           backgroundColor: Colors.red,
@@ -186,15 +186,15 @@ class _RegisterAuthenticationState extends State<RegisterAuthentication> with Va
                                         ),
                                       );
                                     } finally {
-                                      // Fecha o CircularProgressIndicator após o processo
+                                      
                                       navigation.pop();
 
-                                      // Realiza a navegação após fechar o CircularProgressIndicator
+                                      
                                       navigation.pushReplacementNamed(
                                           'loginAuthentication');
                                     }
 
-                                    // Reseta o formulário após o processo de registro
+                                    
                                     _keyForm.currentState!.reset();
                                   }
                                 },

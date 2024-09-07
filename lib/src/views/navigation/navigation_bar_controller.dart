@@ -146,10 +146,10 @@ class GlassmorphismContainer extends StatelessWidget {
   final double height;
 
   const GlassmorphismContainer({
-    super.key, // Add this line
+    super.key,
     required this.width,
     required this.height,
-  }); // Pass the key to the superclass constructor
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +158,9 @@ class GlassmorphismContainer extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withOpacity(0.50), // Cor branca com opacidade
+        color: Colors.white.withOpacity(0.50),
         border: Border.all(
-          color: Colors.white.withOpacity(0.3), // Borda branca com opacidade
+          color: Colors.white.withOpacity(0.3),
           width: 1,
         ),
       ),
@@ -169,7 +169,7 @@ class GlassmorphismContainer extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
-            color: Colors.black.withOpacity(0), // Cor de fundo transparente
+            color: Colors.black.withOpacity(0),
           ),
         ),
       ),
@@ -180,7 +180,6 @@ class GlassmorphismContainer extends StatelessWidget {
 class CircleBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    // Primeiro círculo (inferior esquerdo)
     final Paint circle1Paint = Paint()
       ..shader = const RadialGradient(
         colors: [Colors.blue, Colors.black],
@@ -192,7 +191,6 @@ class CircleBackgroundPainter extends CustomPainter {
     canvas.drawCircle(
         Offset(size.width * 0.10, size.height * 0.85), 150, circle1Paint);
 
-    // Segundo círculo (superior direito)
     final Paint circle2Paint = Paint()
       ..shader = const RadialGradient(
         colors: [Colors.blue, Colors.black],

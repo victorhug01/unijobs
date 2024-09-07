@@ -141,7 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 width: responsive.width,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Função para exibir o diálogo com informações do card
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {

@@ -39,7 +39,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         .select('*')
         .eq('id_fk_usuario', fireUid);
 
-    // Adicione logs para verificar os dados retornados
+    
     print('Dados retornados: $response');
 
     return response as List<Map<String, dynamic>>;
@@ -52,17 +52,17 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
       if (response.error == null) {
         setState(() {
           _future =
-              _fetchPosts(); // Atualize a lista de postagens após exclusão
+              _fetchPosts(); 
         });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Postagem excluída com sucesso!')),
         );
       } else {
-        // ignore: avoid_print
+        
         print('Erro ao excluir postagem: ${response.error!.message}');
       }
     } catch (error) {
-      // ignore: avoid_print
+      
       print('Erro ao excluir postagem: $error');
     }
   }
@@ -102,7 +102,7 @@ class _NewpostPageState extends State<NewpostPage> with ValidationMixinClass {
         );
       }
     } catch (error) {
-      // ignore: avoid_print
+      
       print(error);
     }
   }
