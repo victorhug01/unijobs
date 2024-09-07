@@ -18,6 +18,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {

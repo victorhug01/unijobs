@@ -39,29 +39,30 @@ class _NavigationBottomNavigationState
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: AppBar(
-            leadingWidth: 150,
-            leading: Image.asset('assets/unimar_escrito_black.png'),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    _authService.logOut();
-                  },
-                  icon: const Icon(Icons.exit_to_app))
-            ],
-          ),
+        child: AppBar(
+          leadingWidth: 150,
+          leading: Image.asset('assets/unimar_escrito_black.png'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _authService.logOut();
+                },
+                icon: const Icon(Icons.exit_to_app))
+          ],
         ),
       ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: setPageActual,
-        children: const [
-          NewpostPage(),
-          MyHomePage(),
-          SearchPage(),
-          ProfilePage(),
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: setPageActual,
+            children: const [
+              NewpostPage(),
+              MyHomePage(),
+              SearchPage(),
+              ProfilePage(),
+            ],
+          ),
         ],
       ),
       extendBody: true,

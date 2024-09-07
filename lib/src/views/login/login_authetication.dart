@@ -57,7 +57,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                 ),
                               ),
                               SizedBox(
-                                width: responsive.isMobile ? double.infinity : 450,
+                                width:
+                                    responsive.isMobile ? double.infinity : 450,
                                 child: Form(
                                   key: _keyForm,
                                   child: Column(
@@ -130,23 +131,8 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                   });
                                                 },
                                               ),
-                                              const Text('Relebrar senha'),
+                                              const Text('Relembrar senha'),
                                             ],
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pushNamed('forgotPassword');
-                                            },
-                                            child: Text(
-                                              'Esqueci minha senha',
-                                              style: TextStyle(
-                                                color: ColorSchemeManagerClass
-                                                    .colorBlack,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -163,12 +149,10 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                   passwordController.text;
                                               final navigation =
                                                   Navigator.of(context);
-                          
-                                              // Exibe o CircularProgressIndicator enquanto o processo está em andamento
+
                                               showDialog(
                                                 context: context,
-                                                barrierDismissible:
-                                                    false, // Impede que o usuário feche o diálogo tocando fora
+                                                barrierDismissible: false,
                                                 builder:
                                                     (BuildContext context) {
                                                   return const Center(
@@ -177,16 +161,14 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                   );
                                                 },
                                               );
-                          
+
                                               try {
-                                                // Executa o processo de login
                                                 String? error =
                                                     await _authService
                                                         .signInUsers(
                                                             email: email,
                                                             password: password);
-                          
-                                                // Caso haja erro, exibe um SnackBar com a mensagem
+
                                                 if (error != null) {
                                                   sm.showSnackBar(
                                                     SnackBar(
@@ -200,7 +182,6 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                   );
                                                 }
                                               } catch (e) {
-                                                // Lida com erros inesperados
                                                 sm.showSnackBar(
                                                   SnackBar(
                                                     backgroundColor:
@@ -213,7 +194,6 @@ class _LoginAuthenticationState extends State<LoginAuthentication>
                                                   ),
                                                 );
                                               } finally {
-                                                // Fecha o CircularProgressIndicator após o processo
                                                 navigation.pop();
                                               }
                                               _keyForm.currentState!.reset();
