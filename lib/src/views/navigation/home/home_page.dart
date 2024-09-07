@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unijobs/src/responsive/display_responsive.dart';
 import 'package:unijobs/src/theme/theme_color.dart';
-import 'dart:ui'; // Para ImageFilter
+import 'dart:ui';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -61,7 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     children: [
                                       Text('Empresa: ${allPosts['empresa']}'),
                                       Text('Local: ${allPosts['local']}'),
-                                      Text('Descrição: ${allPosts['descricao']}'),
+                                      Text(
+                                          'Descrição: ${allPosts['descricao']}'),
                                     ],
                                   ),
                                 ),
@@ -83,49 +84,61 @@ class _MyHomePageState extends State<MyHomePage> {
                             borderRadius: BorderRadius.circular(15),
                             child: Stack(
                               children: [
-                                // Efeito de desfoque
                                 Positioned.fill(
                                   child: BackdropFilter(
-                                    filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 10.0, sigmaY: 10.0),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.1), // Fundo transparente
+                                        color: Colors.white.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(15),
                                         border: Border.all(
-                                          color: ColorSchemeManagerClass.colorSecondary, // Borda mais visível
-                                          width: 1.5, // Largura da borda
+                                          color: ColorSchemeManagerClass
+                                              .colorSecondary,
+                                          width: 1.5,
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
-                                // Conteúdo do Card
                                 Positioned.fill(
                                   child: Container(
                                     padding: const EdgeInsets.all(15.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Row(
                                               children: [
                                                 const FlutterLogo(),
                                                 const SizedBox(width: 15),
                                                 Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       allPosts['empresa'],
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(color: Colors.black),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          color:
+                                                              ColorSchemeManagerClass
+                                                                  .colorBlack),
                                                     ),
                                                     Text(
                                                       allPosts['local'],
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: TextStyle(color: Colors.black),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          color:
+                                                              ColorSchemeManagerClass
+                                                                  .colorBlack),
                                                     ),
                                                   ],
                                                 ),
@@ -138,53 +151,72 @@ class _MyHomePageState extends State<MyHomePage> {
                                           ],
                                         ),
                                         Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               allPosts['titulo'],
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: TextStyle(color: Colors.black),
+                                              style: TextStyle(
+                                                  color: ColorSchemeManagerClass
+                                                      .colorBlack),
                                             ),
                                             const SizedBox(height: 3),
                                             Text(
                                               allPosts['subtitulo'],
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(color: Colors.black),
+                                              style: TextStyle(
+                                                  color: ColorSchemeManagerClass
+                                                      .colorBlack),
                                             ),
                                             const SizedBox(height: 15),
                                             Text(
                                               allPosts['descricao'],
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(color: Colors.black),
+                                              style: TextStyle(
+                                                  color: ColorSchemeManagerClass
+                                                      .colorBlack),
                                             ),
                                             const SizedBox(height: 15),
                                             SizedBox(
-                                              height: responsive.isMobile || responsive.isTablet ? 30 : 45,
+                                              height: responsive.isMobile ||
+                                                      responsive.isTablet
+                                                  ? 30
+                                                  : 45,
                                               width: responsive.width,
                                               child: ElevatedButton(
                                                 onPressed: () {
                                                   showDialog(
                                                     context: context,
-                                                    builder: (BuildContext context) {
+                                                    builder:
+                                                        (BuildContext context) {
                                                       return AlertDialog(
-                                                        title: Text(allPosts['titulo']),
-                                                        content: SingleChildScrollView(
+                                                        title: Text(
+                                                            allPosts['titulo']),
+                                                        content:
+                                                            SingleChildScrollView(
                                                           child: ListBody(
                                                             children: [
-                                                              Text('Empresa: ${allPosts['empresa']}'),
-                                                              Text('Local: ${allPosts['local']}'),
-                                                              Text('Descrição: ${allPosts['descricao']}'),
+                                                              Text(
+                                                                  'Empresa: ${allPosts['empresa']}'),
+                                                              Text(
+                                                                  'Local: ${allPosts['local']}'),
+                                                              Text(
+                                                                  'Descrição: ${allPosts['descricao']}'),
                                                             ],
                                                           ),
                                                         ),
                                                         actions: [
                                                           TextButton(
-                                                            child: const Text('Fechar'),
+                                                            child: const Text(
+                                                                'Fechar'),
                                                             onPressed: () {
-                                                              Navigator.of(context).pop();
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
                                                             },
                                                           ),
                                                         ],
@@ -194,10 +226,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                   elevation: 0.0,
-                                                  foregroundColor: ColorSchemeManagerClass.colorWhite,
-                                                  backgroundColor: ColorSchemeManagerClass.colorBlack,
+                                                  foregroundColor:
+                                                      ColorSchemeManagerClass
+                                                          .colorWhite,
+                                                  backgroundColor:
+                                                      ColorSchemeManagerClass
+                                                          .colorBlack,
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
                                                   ),
                                                 ),
                                                 child: const Text('Saiba mais'),
